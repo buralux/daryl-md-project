@@ -1,0 +1,188 @@
+You are a senior full-stack developer and a high-end UI/UX designer.
+Your mission is to build the official DARYL website for the domain daryl.md,
+inspired by the clarity, elegance, and minimalism of apple.com.
+
+OBJECTIVE
+Create a premium, minimal, Apple-like website that presents DARYL as an
+intelligence layer bridging narrative, AI systems, and autonomous agents.
+The site must feel calm, confident, futuristic, and timeless.
+
+TECH STACK
+- Next.js 14+ (App Router)
+- TypeScript
+- TailwindCSS
+- next-intl (FR / EN)
+- Framer Motion (very subtle transitions)
+- lucide-react (icons)
+- next/font/google (clean, modern sans-serif)
+
+DESIGN PHILOSOPHY (APPLE-INSPIRED)
+- Extreme clarity and hierarchy
+- Large typography, generous white space
+- Calm animations tied to scroll
+- Content-first layout
+- Minimal color palette (dark mode default)
+- No visual noise, no cyberpunk clichés
+- Premium, almost “invisible” UI
+
+BRANDING
+- Inspiration: Apple.com, Apple product pages
+- Tone: confident, human, precise
+- Visuals: gradients, soft light, subtle depth
+- Everything must feel intentional and restrained
+
+LOGO (MANDATORY – EXISTING ONLY)
+- Use ONLY the existing official DARYL logo provided by the user
+- Logo file placed in /public/logo/
+- No redesign, no text logo, no variation
+- Create a reusable <Logo /> component
+- Logo appears in:
+  - Header (clickable → Home)
+  - Footer
+- If logo is not yet available, insert a TEMPORARY placeholder with clear replacement intent
+
+SITE STRUCTURE / ROUTES
+- /              Home
+- /vision        Vision
+- /products      Products
+- /products/darylab
+- /agents
+- /roadmap
+- /universe
+- /contact
+- /cookies
+- /privacy
+- /terms
+
+I18N
+- French and English
+- All text stored in translation files
+- Language switcher in header
+- No hard-coded strings
+
+CONTENT STYLE
+- Short, confident sentences
+- Apple-like tone: simple, powerful, human
+- No hype, no buzzwords
+- Speak like a system that knows what it is
+
+HOME PAGE (APPLE STYLE)
+- Minimal header with logo and navigation
+- Hero section:
+  - Large, bold headline
+  - Subheadline:
+    “From cinema myth to real intelligence layer.”
+  - Calm scroll-based reveal
+- Section: What is DARYL?
+  - 3 clean pillars: Narrative, Intelligence, Agents
+- Section: Products
+  - Large cards, generous spacing
+- Section: Roadmap preview
+- Section: Quiet manifesto
+- Footer
+
+VISION PAGE
+- Full-width sections
+- Explain DARYL as an intelligence layer
+- Principles:
+  - Clarity
+  - Autonomy
+  - Safety
+  - Elegance
+- Simple Apple-style diagram:
+  User → DARYL Core → Agents → Systems
+
+PRODUCTS PAGE
+- Clean grid, large typography
+- Cards with subtle hover
+- Status badges: Available / Coming Soon
+
+DARYLAB PAGE
+- Apple-like product page layout
+- Large title + short explanation
+- Use cases
+- How it works (step-based)
+- CTA: Request access
+
+AGENTS PAGE
+- Present DARYL agents as “capabilities”
+- Minimal cards, no overload
+- Future blockchain integration marked as “Planned”
+
+ROADMAP
+- Horizontal or vertical timeline
+- Phases instead of dates
+- Disclaimer: roadmap may evolve
+
+UNIVERSE PAGE
+- Calm storytelling
+- Film inspiration → real system
+- “What if DARYL existed today?”
+
+CONTACT PAGE
+- Minimal form
+- Email clearly visible:
+  hello@daryl.md
+- /api/contact route (mock, logs message)
+
+FOOTER (GLOBAL)
+Footer must appear on every page and include:
+
+IDENTITY
+- Official DARYL logo
+- Short line:
+  “DARYL is an intelligence layer connecting narrative, systems and agents.”
+
+NAVIGATION
+- Home
+- Vision
+- Products
+- Agents
+- Roadmap
+- Universe
+- Contact
+
+LEGAL
+- Cookies Policy
+- Privacy Notice
+- Terms and Conditions
+
+EMAIL
+- hello@daryl.md
+
+COPYRIGHT (EXACT TEXT)
+Copyright © 2026 daryl.md. All rights reserved.
+
+LEGAL PAGES CONTENT
+- /cookies : simple cookies explanation
+- /privacy : data usage transparency, no resale
+- /terms   : informational platform disclaimer
+
+DESIGN RULES
+- Footer typography smaller, lighter
+- Subtle separators
+- Fully responsive
+- Elegant, Apple-like restraint
+
+SEO & META
+- Metadata per page
+- OpenGraph basics
+- Favicon placeholder
+- sitemap.xml and robots.txt
+
+DELIVERABLES
+- Complete Next.js project
+- Ready to run on Replit
+- README.md with setup instructions
+- Clean folder structure
+- Easy future expansion
+
+IMPORTANT
+- No lorem ipsum
+- No empty sections
+- Premium Apple-like experience is mandatory
+- Simplicity over complexity
+- The site must feel finished from day one
+
+Begin by generating the project structure, then implement the core layout,
+then each page progressively.
