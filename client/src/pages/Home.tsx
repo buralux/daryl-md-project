@@ -138,7 +138,7 @@ export default function Home() {
                 className="mt-10"
               >
                 <Link href="/dsm">
-                  <Button variant="default" size="lg" data-testid="button-dsm-cta">
+                  <Button variant="outline" size="lg" data-testid="button-dsm-cta">
                     {t("home.dsm.cta")}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
