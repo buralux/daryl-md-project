@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/lib/theme";
 
 type LogoProps = {
   href?: string;
@@ -19,6 +20,10 @@ export function Logo({
   size = "md",
   className = "",
 }: LogoProps) {
+  const { theme } = useTheme();
+  const blockColor = theme === "dark" ? "rgba(255,255,255,0.88)" : "rgba(15,23,42,0.88)";
+  const textColor = theme === "dark" ? "text-white/90" : "text-slate-900/90";
+  const dotsColor = theme === "dark" ? "text-white/55" : "text-slate-900/55";
   return (
     <Link
       href={href}
@@ -34,7 +39,7 @@ export function Logo({
         style={{
           width: "0.62em",
           height: "1em",
-          background: "rgba(255,255,255,0.88)",
+          background: blockColor,
           marginRight: "0.3em",
         }}
         initial={{ opacity: 1, y: 0 }}
@@ -49,7 +54,7 @@ export function Logo({
 
       {/* DARYL Text */}
       <span
-        className={`${sizeMap[size]} text-white/90 font-medium`}
+        className={`${sizeMap[size]} ${textColor} font-medium`}
         style={{ letterSpacing: "0.22em" }}
       >
         DARYL
@@ -63,7 +68,7 @@ export function Logo({
         {[0, 1, 2].map((i) => (
           <motion.span
             key={i}
-            className="inline-block text-white/55"
+            className={`inline-block ${dotsColor}`}
             initial={{ opacity: 0 }}
             animate={{ 
               opacity: [0, 1, 1, 0]
