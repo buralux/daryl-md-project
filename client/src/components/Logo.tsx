@@ -37,7 +37,7 @@ export function Logo({
           background: "rgba(255,255,255,0.88)",
           marginRight: "0.3em",
         }}
-        initial={{ opacity: 1, y: -5 }}
+        initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: [1, 1, 0], y: 0 }}
         transition={{
           duration: 4.8,
