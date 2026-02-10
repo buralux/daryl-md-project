@@ -15,139 +15,150 @@ export default function DSM() {
       />
 
       {/* Hero Section */}
-      <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6">
-        <h1 className="text-6xl md:text-7xl font-bold tracking-tighter text-foreground">
-          {t("dsm.hero.title")}
+      <section className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6 py-24">
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-foreground">
+          Memory reimagined.
         </h1>
 
-        <p className="mt-6 text-2xl md:text-3xl text-muted-foreground font-light tracking-tight">
-          {t("dsm.hero.subtitle")}
+        <p className="mt-8 text-2xl md:text-3xl text-muted-foreground font-light tracking-tight max-w-3xl">
+          {t("dsm.hero.subtitle")} — the semantic memory engine powering persistent, intelligent agents.
+        </p>
+
+        <p className="mt-12 text-lg text-muted-foreground max-w-2xl leading-relaxed">
+          Daryl's flagship product. Distributed knowledge. Append-only certainty. Real-time retrieval.
         </p>
       </section>
 
-      {/* Intro Section */}
-      <section className="py-24 px-6">
-        <p className="max-w-3xl mx-auto text-xl text-muted-foreground leading-relaxed text-center">
-          {t("dsm.intro")}
-        </p>
+      {/* Core Pillars - 3 Bullets */}
+      <section className="py-24 px-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="text-center">
+            <div className="text-4xl font-bold text-white mb-4">Shard</div>
+            <p className="text-base text-muted-foreground">
+              Break down knowledge into four semantic domains: system, personal, projects, and shared.
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className="text-4xl font-bold text-white mb-4">Index</div>
+            <p className="text-base text-muted-foreground">
+              Enable fast semantic retrieval with distributed indexing across all shards.
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className="text-4xl font-bold text-white mb-4">Verify</div>
+            <p className="text-base text-muted-foreground">
+              Ensure consistency and accuracy with append-only event logging and validation.
+            </p>
+          </div>
+        </div>
       </section>
 
-      {/* Features Section */}
+      {/* How It Works - 4 Cards */}
       <section className="py-32 px-6 max-w-5xl mx-auto">
         <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
-          {t("dsm.capabilities.title")}
+          How it works
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                  1
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Shard Knowledge</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Organize incoming data into semantic shards. Each shard represents a distinct knowledge domain with its own schema and constraints.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                  2
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Build Indexes</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Automatically create semantic indexes for fast retrieval. Indexes remain synchronized with shard state.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                  3
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Verify State</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Validate data consistency across all shards. Every write is append-only and immutable for auditability.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-4">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                  4
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">Retrieve in Context</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Query knowledge with full context awareness. Results are ranked by semantic relevance and temporal freshness.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Use Cases - 3 Cards */}
+      <section className="py-32 px-6 max-w-5xl mx-auto">
+        <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
+          Built for autonomous intelligence
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="border-0 bg-slate-950 hover:bg-slate-900 transition-colors">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.capabilities.sharding.title")}</h3>
-              <p className="text-sm text-muted-foreground">
-                {t("dsm.capabilities.sharding.description")}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 bg-slate-950 hover:bg-slate-900 transition-colors">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.capabilities.coordination.title")}</h3>
-              <p className="text-sm text-muted-foreground">
-                {t("dsm.capabilities.coordination.description")}
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 bg-slate-950 hover:bg-slate-900 transition-colors">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.capabilities.continuity.title")}</h3>
-              <p className="text-sm text-muted-foreground">
-                {t("dsm.capabilities.continuity.description")}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Architecture Section */}
-      <section className="py-32 px-6 max-w-5xl mx-auto">
-        <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
-          {t("dsm.architecture.title")}
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <h3 className="text-2xl font-semibold mb-8">{t("dsm.architecture.shards.title")}</h3>
-            <ul className="space-y-4 text-muted-foreground">
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.shards.system")}</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.shards.personal")}</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.shards.projects")}</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.shards.shared")}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-2xl font-semibold mb-8">{t("dsm.architecture.agents.title")}</h3>
-            <ul className="space-y-4 text-muted-foreground">
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.agents.primary")}</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.agents.worker")}</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.agents.monitor")}</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="font-mono text-white">•</span>
-                <span>{t("dsm.architecture.agents.sync")}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Status Section */}
-      <section className="py-32 px-6 max-w-5xl mx-auto">
-        <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
-          {t("dsm.status.title")}
-        </h2>
-
-        <div className="max-w-2xl mx-auto">
           <Card className="border-0 bg-slate-950">
             <CardContent className="pt-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("dsm.status.system")}</span>
-                  <span className="text-green-400 font-semibold">{t("dsm.status.system.value")}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("dsm.status.shards")}</span>
-                  <span className="text-white font-semibold">{t("dsm.status.shards.value")}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("dsm.status.agents")}</span>
-                  <span className="text-white font-semibold">{t("dsm.status.agents.value")}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">{t("dsm.status.updated")}</span>
-                  <span className="text-white font-semibold">{t("dsm.status.updated.value")}</span>
-                </div>
-              </div>
+              <h3 className="text-xl font-semibold mb-4">Multi-Agent Coordination</h3>
+              <p className="text-sm text-muted-foreground">
+                Coordinate distributed agents with shared semantic memory. Each agent reads from context, writes to append-only logs.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">Session Continuity</h3>
+              <p className="text-sm text-muted-foreground">
+                Persist knowledge across sessions. Agents resume work with complete context awareness and learned preferences.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">Knowledge Evolution</h3>
+              <p className="text-sm text-muted-foreground">
+                Watch intelligence grow. Every interaction adds to the knowledge graph. History is preserved. Learning is measurable.
+              </p>
             </CardContent>
           </Card>
         </div>
