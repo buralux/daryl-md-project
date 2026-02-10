@@ -151,7 +151,7 @@ export default function Home() {
               {...fadeInUp}
               transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
             >
-              <Card className="border-0 bg-slate-950 p-8 md:p-12">
+              <Card className="hover-elevate p-8 md:p-12">
                 <CardContent className="p-0 text-center">
                   <div className="text-6xl font-bold text-white/20 mb-4">DSM</div>
                   <p className="text-muted-foreground text-sm leading-relaxed">
