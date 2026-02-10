@@ -17,15 +17,11 @@ export default function DSM() {
       {/* Hero Section */}
       <section className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6 py-24">
         <h1 className="text-6xl md:text-8xl font-bold tracking-tighter text-foreground">
-          Memory reimagined.
+          {t("dsm.hero.headline")}
         </h1>
 
         <p className="mt-8 text-2xl md:text-3xl text-muted-foreground font-light tracking-tight max-w-3xl">
-          {t("dsm.hero.subtitle")} — the semantic memory engine powering persistent, intelligent agents.
-        </p>
-
-        <p className="mt-12 text-lg text-muted-foreground max-w-2xl leading-relaxed">
-          Daryl's flagship product. Distributed knowledge. Append-only certainty. Real-time retrieval.
+          {t("dsm.hero.subtitle")} — {t("dsm.hero.tagline")}
         </p>
       </section>
 
@@ -35,21 +31,21 @@ export default function DSM() {
           <div className="text-center">
             <div className="text-4xl font-bold text-white mb-4">Shard</div>
             <p className="text-base text-muted-foreground">
-              Break down knowledge into four semantic domains: system, personal, projects, and shared.
+              {t("dsm.pillars.shard")}
             </p>
           </div>
           
           <div className="text-center">
             <div className="text-4xl font-bold text-white mb-4">Index</div>
             <p className="text-base text-muted-foreground">
-              Enable fast semantic retrieval with distributed indexing across all shards.
+              {t("dsm.pillars.index")}
             </p>
           </div>
           
           <div className="text-center">
             <div className="text-4xl font-bold text-white mb-4">Verify</div>
             <p className="text-base text-muted-foreground">
-              Ensure consistency and accuracy with append-only event logging and validation.
+              {t("dsm.pillars.verify")}
             </p>
           </div>
         </div>
@@ -58,7 +54,7 @@ export default function DSM() {
       {/* How It Works - 4 Cards */}
       <section className="py-32 px-6 max-w-5xl mx-auto">
         <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
-          How it works
+          {t("dsm.howitworks.title")}
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -69,9 +65,9 @@ export default function DSM() {
                   1
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Shard Knowledge</h3>
+                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step1.title")}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Organize incoming data into semantic shards. Each shard represents a distinct knowledge domain with its own schema and constraints.
+                    {t("dsm.howitworks.step1.description")}
                   </p>
                 </div>
               </div>
@@ -85,9 +81,9 @@ export default function DSM() {
                   2
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Build Indexes</h3>
+                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step2.title")}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Automatically create semantic indexes for fast retrieval. Indexes remain synchronized with shard state.
+                    {t("dsm.howitworks.step2.description")}
                   </p>
                 </div>
               </div>
@@ -101,9 +97,9 @@ export default function DSM() {
                   3
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Verify State</h3>
+                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step3.title")}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Validate data consistency across all shards. Every write is append-only and immutable for auditability.
+                    {t("dsm.howitworks.step3.description")}
                   </p>
                 </div>
               </div>
@@ -117,9 +113,9 @@ export default function DSM() {
                   4
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Retrieve in Context</h3>
+                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step4.title")}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Query knowledge with full context awareness. Results are ranked by semantic relevance and temporal freshness.
+                    {t("dsm.howitworks.step4.description")}
                   </p>
                 </div>
               </div>
@@ -131,33 +127,33 @@ export default function DSM() {
       {/* Use Cases - 3 Cards */}
       <section className="py-32 px-6 max-w-5xl mx-auto">
         <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
-          Built for autonomous intelligence
+          {t("dsm.usecases.title")}
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
           <Card className="border-0 bg-slate-950">
             <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">Multi-Agent Coordination</h3>
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.usecases.coordination.title")}</h3>
               <p className="text-sm text-muted-foreground">
-                Coordinate distributed agents with shared semantic memory. Each agent reads from context, writes to append-only logs.
+                {t("dsm.usecases.coordination.description")}
               </p>
             </CardContent>
           </Card>
 
           <Card className="border-0 bg-slate-950">
             <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">Session Continuity</h3>
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.usecases.continuity.title")}</h3>
               <p className="text-sm text-muted-foreground">
-                Persist knowledge across sessions. Agents resume work with complete context awareness and learned preferences.
+                {t("dsm.usecases.continuity.description")}
               </p>
             </CardContent>
           </Card>
 
           <Card className="border-0 bg-slate-950">
             <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">Knowledge Evolution</h3>
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.usecases.evolution.title")}</h3>
               <p className="text-sm text-muted-foreground">
-                Watch intelligence grow. Every interaction adds to the knowledge graph. History is preserved. Learning is measurable.
+                {t("dsm.usecases.evolution.description")}
               </p>
             </CardContent>
           </Card>
