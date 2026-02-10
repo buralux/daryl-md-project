@@ -226,6 +226,20 @@ const fr: Record<string, string> = {
   "dsm.isnot.vectordb.title": "Pas une seule BD vecteurs",
   "dsm.isnot.vectordb.description": "Bien que les embeddings aident la récupération, DSM combine fragmentation, vérification et sémantique déterministe pour vraie connaissance.",
   "dsm.isnot.blackbox.title": "Pas une boîte noire",
-  "dsm.isnot.blackbox.description": "Chaque décision de récupération est auditable. Trace complète de ce qui a été stocké, quand, et pourquoi il a été sélectionné.",};
+  "dsm.isnot.blackbox.description": "Chaque décision de récupération est auditable. Trace complète de ce qui a été stocké, quand, et pourquoi il a été sélectionné.",
+
+  "dsm.exampleFlow.title": "Exemple de flux",
+  "dsm.exampleFlow.subtitle": "Comment DSM traite et récupère la connaissance en temps réel",
+  "dsm.exampleFlow.step1.title": "Entrée",
+  "dsm.exampleFlow.step1.description": "L'agent demande : 'Quelles métriques clés stimulent les revenus ?'",
+  "dsm.exampleFlow.step2.title": "Fragmenter",
+  "dsm.exampleFlow.step2.description": "Router vers fragment projets avec contexte financier attaché.",
+  "dsm.exampleFlow.step3.title": "Indexer",
+  "dsm.exampleFlow.step3.description": "Correspondre aux données de revenus et vecteurs de tendances en parallèle.",
+  "dsm.exampleFlow.step4.title": "Vérifier",
+  "dsm.exampleFlow.step4.description": "Confirmer sources de données et traces de calcul. Toutes immuables.",
+  "dsm.exampleFlow.step5.title": "Récupérer",
+  "dsm.exampleFlow.step5.description": "Retourner les résultats avec chaîne de contexte complète et scores de confiance.",
+};
 
 export default fr;

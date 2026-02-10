@@ -240,6 +240,109 @@ export default function DSM() {
           </Card>
         </div>
       </section>
+
+      {/* Example Flow */}
+      <section className="py-32 px-6 max-w-5xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold tracking-tight text-foreground">
+            {t("dsm.exampleFlow.title")}
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            {t("dsm.exampleFlow.subtitle")}
+          </p>
+        </div>
+
+        <Card className="border-0 bg-slate-950">
+          <CardContent className="pt-8 pb-8">
+            <div className="space-y-6">
+              {/* Step 1 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+                    1
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    {t("dsm.exampleFlow.step1.title")}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("dsm.exampleFlow.step1.description")}
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+                    2
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    {t("dsm.exampleFlow.step2.title")}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("dsm.exampleFlow.step2.description")}
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+                    3
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    {t("dsm.exampleFlow.step3.title")}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("dsm.exampleFlow.step3.description")}
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+                    4
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    {t("dsm.exampleFlow.step4.title")}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("dsm.exampleFlow.step4.description")}
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 5 */}
+              <div className="flex gap-6">
+                <div className="flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
+                    5
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white">
+                    {t("dsm.exampleFlow.step5.title")}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t("dsm.exampleFlow.step5.description")}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
     </Layout>
   );
 }

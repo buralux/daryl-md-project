@@ -226,6 +226,19 @@ const en: Record<string, string> = {
   "dsm.isnot.blackbox.title": "Not a Black Box",
   "dsm.isnot.blackbox.description": "Every retrieval decision is auditable. Full trace of what was stored, when, and why it was selected.",
 
+  "dsm.exampleFlow.title": "Example Flow",
+  "dsm.exampleFlow.subtitle": "How DSM processes and retrieves knowledge in real time",
+  "dsm.exampleFlow.step1.title": "Input",
+  "dsm.exampleFlow.step1.description": "Agent asks: 'What key metrics drive revenue?'",
+  "dsm.exampleFlow.step2.title": "Shard",
+  "dsm.exampleFlow.step2.description": "Route to projects shard with financial context attached.",
+  "dsm.exampleFlow.step3.title": "Index",
+  "dsm.exampleFlow.step3.description": "Match against revenue data and trend vectors in parallel.",
+  "dsm.exampleFlow.step4.title": "Verify",
+  "dsm.exampleFlow.step4.description": "Confirm data sources and computation traces. All immutable.",
+  "dsm.exampleFlow.step5.title": "Retrieve",
+  "dsm.exampleFlow.step5.description": "Return results with full context chain and confidence scores.",
+
   "common.learnMore": "Learn more",
   "common.viewFullRoadmap": "View full roadmap",
 };
