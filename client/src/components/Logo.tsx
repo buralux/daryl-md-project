@@ -64,12 +64,16 @@ export function Logo({
           <motion.span
             key={i}
             className="inline-block text-white/55"
-            initial={{ opacity: 0.15 }}
-            animate={{ opacity: [0.15, 0.9, 0.15] }}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0, 1, 1, 0]
+            }}
             transition={{
-              duration: 1.4,
+              duration: 1.8,
               repeat: Infinity,
               ease: "easeInOut",
+              delay: i * 0.3,
+              times: [0, 0.05, 0.7, 0.75],
             }}
           >
             .
