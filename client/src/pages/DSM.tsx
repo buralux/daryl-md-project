@@ -29,21 +29,21 @@ export default function DSM() {
       <section className="py-24 px-6 max-w-5xl mx-auto">
         <div className="grid md:grid-cols-3 gap-8">
           <div className="text-center">
-            <div className="text-4xl font-bold text-white mb-4">Shard</div>
+            <div className="text-4xl font-bold text-foreground mb-4">Shard</div>
             <p className="text-base text-muted-foreground">
               {t("dsm.pillars.shard")}
             </p>
           </div>
           
           <div className="text-center">
-            <div className="text-4xl font-bold text-white mb-4">Index</div>
+            <div className="text-4xl font-bold text-foreground mb-4">Index</div>
             <p className="text-base text-muted-foreground">
               {t("dsm.pillars.index")}
             </p>
           </div>
           
           <div className="text-center">
-            <div className="text-4xl font-bold text-white mb-4">Verify</div>
+            <div className="text-4xl font-bold text-foreground mb-4">Verify</div>
             <p className="text-base text-muted-foreground">
               {t("dsm.pillars.verify")}
             </p>
@@ -61,7 +61,7 @@ export default function DSM() {
           <Card className="hover-elevate p-8">
             <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
+                <div className="text-2xl font-bold text-muted-foreground flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   1
                 </div>
                 <div className="flex-1">
@@ -77,7 +77,7 @@ export default function DSM() {
           <Card className="hover-elevate p-8">
             <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
+                <div className="text-2xl font-bold text-muted-foreground flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   2
                 </div>
                 <div className="flex-1">
@@ -93,7 +93,7 @@ export default function DSM() {
           <Card className="hover-elevate p-8">
             <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
+                <div className="text-2xl font-bold text-muted-foreground flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   3
                 </div>
                 <div className="flex-1">
@@ -109,7 +109,7 @@ export default function DSM() {
           <Card className="hover-elevate p-8">
             <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
+                <div className="text-2xl font-bold text-muted-foreground flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   4
                 </div>
                 <div className="flex-1">
