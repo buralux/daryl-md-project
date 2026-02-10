@@ -58,15 +58,15 @@ export default function DSM() {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   1
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step1.title")}</h3>
-                  <p className="text-sm text-muted-foreground">
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground">{t("dsm.howitworks.step1.title")}</h3>
+                  <p className="text-sm text-muted-foreground mt-2">
                     {t("dsm.howitworks.step1.description")}
                   </p>
                 </div>
@@ -74,15 +74,15 @@ export default function DSM() {
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   2
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step2.title")}</h3>
-                  <p className="text-sm text-muted-foreground">
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground">{t("dsm.howitworks.step2.title")}</h3>
+                  <p className="text-sm text-muted-foreground mt-2">
                     {t("dsm.howitworks.step2.description")}
                   </p>
                 </div>
@@ -90,15 +90,15 @@ export default function DSM() {
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   3
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step3.title")}</h3>
-                  <p className="text-sm text-muted-foreground">
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground">{t("dsm.howitworks.step3.title")}</h3>
+                  <p className="text-sm text-muted-foreground mt-2">
                     {t("dsm.howitworks.step3.description")}
                   </p>
                 </div>
@@ -106,15 +106,15 @@ export default function DSM() {
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
               <div className="flex items-start gap-4">
-                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-slate-900 rounded">
+                <div className="text-2xl font-bold text-white/60 flex-shrink-0 w-8 h-8 flex items-center justify-center bg-card-border rounded">
                   4
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">{t("dsm.howitworks.step4.title")}</h3>
-                  <p className="text-sm text-muted-foreground">
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-foreground">{t("dsm.howitworks.step4.title")}</h3>
+                  <p className="text-sm text-muted-foreground mt-2">
                     {t("dsm.howitworks.step4.description")}
                   </p>
                 </div>
@@ -131,27 +131,27 @@ export default function DSM() {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.usecases.coordination.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.usecases.coordination.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.usecases.coordination.description")}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.usecases.continuity.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.usecases.continuity.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.usecases.continuity.description")}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.usecases.evolution.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.usecases.evolution.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.usecases.evolution.description")}
               </p>
@@ -167,36 +167,36 @@ export default function DSM() {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.appendonly.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.principles.appendonly.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.principles.appendonly.description")}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.sharded.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.principles.sharded.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.principles.sharded.description")}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.verifiable.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.principles.verifiable.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.principles.verifiable.description")}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.deterministic.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.principles.deterministic.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.principles.deterministic.description")}
               </p>
@@ -212,27 +212,27 @@ export default function DSM() {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.isnot.chathistory.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.isnot.chathistory.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.isnot.chathistory.description")}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.isnot.vectordb.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.isnot.vectordb.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.isnot.vectordb.description")}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-0 bg-slate-950">
-            <CardContent className="pt-6">
-              <h3 className="text-xl font-semibold mb-4">{t("dsm.isnot.blackbox.title")}</h3>
+          <Card className="hover-elevate p-8">
+            <CardContent className="p-0 space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">{t("dsm.isnot.blackbox.title")}</h3>
               <p className="text-sm text-muted-foreground">
                 {t("dsm.isnot.blackbox.description")}
               </p>
@@ -252,92 +252,90 @@ export default function DSM() {
           </p>
         </div>
 
-        <Card className="border-0 bg-slate-950">
-          <CardContent className="pt-8 pb-8">
-            <div className="space-y-6">
-              {/* Step 1 */}
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                    1
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white">
-                    {t("dsm.exampleFlow.step1.title")}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {t("dsm.exampleFlow.step1.description")}
-                  </p>
+        <Card className="hover-elevate p-8">
+          <CardContent className="p-0 space-y-6">
+            {/* Step 1 */}
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card-border text-sm font-semibold text-foreground">
+                  1
                 </div>
               </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("dsm.exampleFlow.step1.title")}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t("dsm.exampleFlow.step1.description")}
+                </p>
+              </div>
+            </div>
 
-              {/* Step 2 */}
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                    2
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white">
-                    {t("dsm.exampleFlow.step2.title")}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {t("dsm.exampleFlow.step2.description")}
-                  </p>
+            {/* Step 2 */}
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card-border text-sm font-semibold text-foreground">
+                  2
                 </div>
               </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("dsm.exampleFlow.step2.title")}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t("dsm.exampleFlow.step2.description")}
+                </p>
+              </div>
+            </div>
 
-              {/* Step 3 */}
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                    3
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white">
-                    {t("dsm.exampleFlow.step3.title")}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {t("dsm.exampleFlow.step3.description")}
-                  </p>
+            {/* Step 3 */}
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card-border text-sm font-semibold text-foreground">
+                  3
                 </div>
               </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("dsm.exampleFlow.step3.title")}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t("dsm.exampleFlow.step3.description")}
+                </p>
+              </div>
+            </div>
 
-              {/* Step 4 */}
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                    4
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white">
-                    {t("dsm.exampleFlow.step4.title")}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {t("dsm.exampleFlow.step4.description")}
-                  </p>
+            {/* Step 4 */}
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card-border text-sm font-semibold text-foreground">
+                  4
                 </div>
               </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("dsm.exampleFlow.step4.title")}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t("dsm.exampleFlow.step4.description")}
+                </p>
+              </div>
+            </div>
 
-              {/* Step 5 */}
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white">
-                    5
-                  </div>
+            {/* Step 5 */}
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-card-border text-sm font-semibold text-foreground">
+                  5
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white">
-                    {t("dsm.exampleFlow.step5.title")}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {t("dsm.exampleFlow.step5.description")}
-                  </p>
-                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-foreground">
+                  {t("dsm.exampleFlow.step5.title")}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {t("dsm.exampleFlow.step5.description")}
+                </p>
               </div>
             </div>
           </CardContent>
