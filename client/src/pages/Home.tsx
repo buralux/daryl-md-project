@@ -100,6 +100,70 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* DSM Flagship Section */}
+      <section className="py-24 px-6 bg-card/50" data-testid="section-dsm">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div {...fadeInUp}>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+                {t("home.dsm.title")}
+              </h2>
+              <p className="mt-4 text-2xl text-muted-foreground font-light">
+                {t("home.dsm.subtitle")}
+              </p>
+              <p className="mt-6 text-lg text-muted-foreground max-w-xl">
+                {t("home.dsm.oneliner")}
+              </p>
+
+              {/* Three Bullets */}
+              <div className="mt-8 space-y-3">
+                <div className="flex gap-3 items-start">
+                  <span className="text-muted-foreground font-semibold min-w-fit">{t("home.dsm.shard")}</span>
+                  <span className="text-muted-foreground text-sm">Organize knowledge into semantic domains</span>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <span className="text-muted-foreground font-semibold min-w-fit">{t("home.dsm.index")}</span>
+                  <span className="text-muted-foreground text-sm">Enable fast, distributed retrieval</span>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <span className="text-muted-foreground font-semibold min-w-fit">{t("home.dsm.verify")}</span>
+                  <span className="text-muted-foreground text-sm">Ensure consistency and auditability</span>
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <motion.div
+                {...fadeInUp}
+                transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+                className="mt-10"
+              >
+                <Link href="/dsm">
+                  <Button variant="default" size="lg" data-testid="button-dsm-cta">
+                    {t("home.dsm.cta")}
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            {/* Right side - Visual highlight */}
+            <motion.div
+              {...fadeInUp}
+              transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+            >
+              <Card className="border-0 bg-slate-950 p-8 md:p-12">
+                <CardContent className="p-0 text-center">
+                  <div className="text-6xl font-bold text-white/20 mb-4">DSM</div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Daryl's flagship memory engine. Persistent, distributed, append-only. Built for autonomous agents that think and learn across sessions.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       <section
         data-testid="section-what"
         className="py-32 px-6 max-w-6xl mx-auto"

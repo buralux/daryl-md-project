@@ -13,6 +13,14 @@ const en: Record<string, string> = {
   "home.hero.description": "From cinema myth to real intelligence layer.",
   "home.hero.cta": "Discover",
 
+  "home.dsm.title": "DSM",
+  "home.dsm.subtitle": "Daryl Sharding Memory",
+  "home.dsm.oneliner": "Memory that scales with reality.",
+  "home.dsm.shard": "Shard",
+  "home.dsm.index": "Index",
+  "home.dsm.verify": "Verify",
+  "home.dsm.cta": "Explore DSM",
+
   "home.what.title": "What is DARYL?",
   "home.what.subtitle": "An intelligence layer connecting narrative, AI systems, and autonomous agents.",
   "home.pillars.narrative.title": "Narrative",

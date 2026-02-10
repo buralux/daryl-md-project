@@ -13,6 +13,14 @@ const fr: Record<string, string> = {
   "home.hero.description": "Du mythe cin\u00e9matographique \u00e0 la couche d'intelligence r\u00e9elle.",
   "home.hero.cta": "D\u00e9couvrir",
 
+  "home.dsm.title": "DSM",
+  "home.dsm.subtitle": "Daryl Sharding Memory",
+  "home.dsm.oneliner": "La m\u00e9moire qui \u00e9volue avec la r\u00e9alit\u00e9.",
+  "home.dsm.shard": "Fragmenter",
+  "home.dsm.index": "Indexer",
+  "home.dsm.verify": "V\u00e9rifier",
+  "home.dsm.cta": "Explorer DSM",
+
   "home.what.title": "Qu'est-ce que DARYL\u00a0?",
   "home.what.subtitle": "Une couche d'intelligence connectant narration, syst\u00e8mes d'IA et agents autonomes.",
   "home.pillars.narrative.title": "Narration",
