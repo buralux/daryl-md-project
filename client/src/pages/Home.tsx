@@ -119,15 +119,15 @@ export default function Home() {
               <div className="mt-8 space-y-3">
                 <div className="flex gap-3 items-start">
                   <span className="text-muted-foreground font-semibold min-w-fit">{t("home.dsm.shard")}</span>
-                  <span className="text-muted-foreground text-sm">Organize knowledge into semantic domains</span>
+                  <span className="text-muted-foreground text-sm">{t("home.dsm.shard.description")}</span>
                 </div>
                 <div className="flex gap-3 items-start">
                   <span className="text-muted-foreground font-semibold min-w-fit">{t("home.dsm.index")}</span>
-                  <span className="text-muted-foreground text-sm">Enable fast, distributed retrieval</span>
+                  <span className="text-muted-foreground text-sm">{t("home.dsm.index.description")}</span>
                 </div>
                 <div className="flex gap-3 items-start">
                   <span className="text-muted-foreground font-semibold min-w-fit">{t("home.dsm.verify")}</span>
-                  <span className="text-muted-foreground text-sm">Ensure consistency and auditability</span>
+                  <span className="text-muted-foreground text-sm">{t("home.dsm.verify.description")}</span>
                 </div>
               </div>
 

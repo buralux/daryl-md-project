@@ -17,8 +17,11 @@ const en: Record<string, string> = {
   "home.dsm.subtitle": "Daryl Sharding Memory",
   "home.dsm.oneliner": "Memory that scales with reality.",
   "home.dsm.shard": "Shard",
+  "home.dsm.shard.description": "Organize knowledge into semantic domains",
   "home.dsm.index": "Index",
+  "home.dsm.index.description": "Enable fast, distributed retrieval",
   "home.dsm.verify": "Verify",
+  "home.dsm.verify.description": "Ensure consistency and auditability",
   "home.dsm.cta": "Explore DSM",
 
   "home.what.title": "What is DARYL?",
