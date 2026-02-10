@@ -209,6 +209,23 @@ const fr: Record<string, string> = {
   "dsm.status.agents": "Agents inscrits",
   "dsm.status.agents.value": "1 Principal",
   "dsm.status.updated": "Dernière mise à jour",
-  "dsm.status.updated.value": "2026-02-10",};
+  "dsm.status.updated.value": "2026-02-10",
+
+  "dsm.principles.title": "Principes de conception",
+  "dsm.principles.appendonly.title": "Historique en ajout uniquement",
+  "dsm.principles.appendonly.description": "Chaque changement d'état est immuable et horodaté. Journal d'audit complet sans récritures.",
+  "dsm.principles.sharded.title": "Fragmenté par contexte",
+  "dsm.principles.sharded.description": "Connaissance organisée dans des domaines sémantiques distincts pour interrogation efficace et isolation.",
+  "dsm.principles.verifiable.title": "État vérifiable",
+  "dsm.principles.verifiable.description": "Références adressées par contenu et traces d'exécution permettent preuve cryptographique de l'exactitude.",
+  "dsm.principles.deterministic.title": "Récupération déterministe",
+  "dsm.principles.deterministic.description": "La même requête sur les mêmes données retourne toujours les mêmes résultats. Aucun aléa. Réponses fondées.",
+  "dsm.isnot.title": "Ce que DSM n'est PAS",
+  "dsm.isnot.chathistory.title": "Pas un historique de chat",
+  "dsm.isnot.chathistory.description": "DSM est de la mémoire sémantique structurée, pas des journaux de conversation désordonnés. Contextuelle, pas séquentielle.",
+  "dsm.isnot.vectordb.title": "Pas une seule BD vecteurs",
+  "dsm.isnot.vectordb.description": "Bien que les embeddings aident la récupération, DSM combine fragmentation, vérification et sémantique déterministe pour vraie connaissance.",
+  "dsm.isnot.blackbox.title": "Pas une boîte noire",
+  "dsm.isnot.blackbox.description": "Chaque décision de récupération est auditable. Trace complète de ce qui a été stocké, quand, et pourquoi il a été sélectionné.",};
 
 export default fr;

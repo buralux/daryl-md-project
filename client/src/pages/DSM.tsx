@@ -159,6 +159,87 @@ export default function DSM() {
           </Card>
         </div>
       </section>
+
+      {/* Design Principles - 4 Cards */}
+      <section className="py-32 px-6 max-w-5xl mx-auto">
+        <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
+          {t("dsm.principles.title")}
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.appendonly.title")}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("dsm.principles.appendonly.description")}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.sharded.title")}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("dsm.principles.sharded.description")}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.verifiable.title")}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("dsm.principles.verifiable.description")}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.principles.deterministic.title")}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("dsm.principles.deterministic.description")}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* What DSM is NOT - 3 Cards */}
+      <section className="py-32 px-6 max-w-5xl mx-auto">
+        <h2 className="text-4xl font-bold tracking-tight mb-16 text-center">
+          {t("dsm.isnot.title")}
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.isnot.chathistory.title")}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("dsm.isnot.chathistory.description")}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.isnot.vectordb.title")}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("dsm.isnot.vectordb.description")}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 bg-slate-950">
+            <CardContent className="pt-6">
+              <h3 className="text-xl font-semibold mb-4">{t("dsm.isnot.blackbox.title")}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("dsm.isnot.blackbox.description")}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
     </Layout>
   );
 }

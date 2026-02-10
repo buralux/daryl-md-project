@@ -209,6 +209,23 @@ const en: Record<string, string> = {
   "dsm.status.updated": "Last Updated",
   "dsm.status.updated.value": "2026-02-10",
 
+  "dsm.principles.title": "Design Principles",
+  "dsm.principles.appendonly.title": "Append-only History",
+  "dsm.principles.appendonly.description": "Every state change is immutable and timestamped. Full audit trail with no rewrites.",
+  "dsm.principles.sharded.title": "Sharded by Context",
+  "dsm.principles.sharded.description": "Knowledge organized into distinct semantic domains for efficient querying and isolation.",
+  "dsm.principles.verifiable.title": "Verifiable State",
+  "dsm.principles.verifiable.description": "Content-addressed references and execution traces enable cryptographic proof of correctness.",
+  "dsm.principles.deterministic.title": "Deterministic Retrieval",
+  "dsm.principles.deterministic.description": "Same query over same data always returns the same results. No randomness. Grounded answers.",
+  "dsm.isnot.title": "What DSM is NOT",
+  "dsm.isnot.chathistory.title": "Not Chat History",
+  "dsm.isnot.chathistory.description": "DSM is structured semantic memory, not unorganized conversation logs. Context-aware, not sequential.",
+  "dsm.isnot.vectordb.title": "Not a Vector DB Alone",
+  "dsm.isnot.vectordb.description": "While embeddings help retrieval, DSM combines sharding, verification, and deterministic semantics for true knowledge.",
+  "dsm.isnot.blackbox.title": "Not a Black Box",
+  "dsm.isnot.blackbox.description": "Every retrieval decision is auditable. Full trace of what was stored, when, and why it was selected.",
+
   "common.learnMore": "Learn more",
   "common.viewFullRoadmap": "View full roadmap",
 };
