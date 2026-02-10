@@ -70,7 +70,6 @@ export function Logo({
               duration: 1.4,
               repeat: Infinity,
               ease: "easeInOut",
-              delay: i * 0.22,
             }}
           >
             .
