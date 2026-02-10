@@ -5,6 +5,7 @@ const en: Record<string, string> = {
   "nav.agents": "Agents",
   "nav.roadmap": "Roadmap",
   "nav.universe": "Universe",
+  "nav.dsm": "DSM",
   "nav.contact": "Contact",
 
   "home.hero.title": "DARYL",

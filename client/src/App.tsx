@@ -13,6 +13,7 @@ import DaryLab from "@/pages/DaryLab";
 import Agents from "@/pages/Agents";
 import Roadmap from "@/pages/Roadmap";
 import Universe from "@/pages/Universe";
+import DSM from "@/pages/DSM";
 import Contact from "@/pages/Contact";
 import Cookies from "@/pages/Cookies";
 import Privacy from "@/pages/Privacy";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/agents" component={Agents} />
       <Route path="/roadmap" component={Roadmap} />
       <Route path="/universe" component={Universe} />
+      <Route path="/dsm" component={DSM} />
       <Route path="/contact" component={Contact} />
       <Route path="/cookies" component={Cookies} />
       <Route path="/privacy" component={Privacy} />

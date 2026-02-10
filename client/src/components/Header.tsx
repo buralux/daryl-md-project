@@ -21,6 +21,7 @@ const navItems = [
   { key: "nav.agents", href: "/agents" },
   { key: "nav.roadmap", href: "/roadmap" },
   { key: "nav.universe", href: "/universe" },
+  { key: "nav.dsm", href: "/dsm" },
   { key: "nav.contact", href: "/contact" },
 ];
 
