@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Background -->
+  <rect width="64" height="64" fill="#0f172a" rx="12"/>
+  
+  <!-- D shape in white -->
+  <g fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Vertical line -->
+    <line x1="18" y1="12" x2="18" y2="52"/>
+    
+    <!-- Top curve -->
+    <path d="M 18 12 Q 38 12 38 26"/>
+    
+    <!-- Bottom curve -->
+    <path d="M 18 52 Q 38 52 38 38"/>
+    
+    <!-- Connecting vertical segment -->
+    <line x1="38" y1="26" x2="38" y2="38"/>
+  </g>
+</svg>
