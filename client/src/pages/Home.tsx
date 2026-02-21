@@ -48,7 +48,7 @@ export default function Home() {
       <PageHead
         title="DARYL - Intelligence Layer"
         description={t("home.hero.description")}
-        path="/"
+        path="/home"
       />
 
       <section

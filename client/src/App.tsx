@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import NotFound from "@/pages/not-found";
+import Teaser from "@/pages/Teaser";
 import Home from "@/pages/Home";
 import Vision from "@/pages/Vision";
 import Products from "@/pages/Products";
@@ -22,7 +23,8 @@ import Terms from "@/pages/Terms";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/home" component={Home} />
+      <Route path="/" component={Teaser} />
       <Route path="/vision" component={Vision} />
       <Route path="/products" component={Products} />
       <Route path="/products/darylab" component={DaryLab} />

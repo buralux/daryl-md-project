@@ -3,7 +3,7 @@ import { useTranslation } from "@/lib/i18n";
 import { Logo } from "@/components/Logo";
 
 const navLinks = [
-  { key: "nav.home", href: "/" },
+  { key: "nav.home", href: "/home" },
   { key: "nav.vision", href: "/vision" },
   { key: "nav.products", href: "/products" },
   { key: "nav.agents", href: "/agents" },

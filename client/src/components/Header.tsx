@@ -15,7 +15,7 @@ import {
 import { Logo } from "@/components/Logo";
 
 const navItems = [
-  { key: "nav.home", href: "/" },
+  { key: "nav.home", href: "/home" },
   { key: "nav.vision", href: "/vision" },
   { key: "nav.products", href: "/products" },
   { key: "nav.agents", href: "/agents" },
@@ -36,7 +36,7 @@ export function Header() {
       className="sticky top-0 z-50 h-16 backdrop-blur-xl bg-background/80 border-b border-border/50"
     >
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-        <Link href="/" data-testid="link-logo">
+        <Link href="/home" data-testid="link-logo">
           <Logo />
         </Link>
 
