@@ -576,11 +576,12 @@ function TryDaryLab() {
   }, [content, submitMutation]);
 
   const data = pollQuery.data;
-  const agentMeshUrl =
-    import.meta.env.VITE_AGENT_MESH_URL || "https://daryl-production.up.railway.app";
+  const proofBase =
+    import.meta.env.VITE_DSM_BRIDGE_URL ??
+    "https://daryl-production.up.railway.app";
   const proofUrl = missionId
-    ? `${agentMeshUrl}/bridge/context?scope=mission:${missionId}&consumer_agent_id=darylab`
-    : agentMeshUrl;
+    ? `${proofBase}/bridge/context?scope=mission:${missionId}&consumer_agent_id=darylab`
+    : proofBase;
   const completedIds = new Set((data?.results ?? []).map((r) => r.agentId));
 
   return (
