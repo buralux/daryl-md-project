@@ -480,7 +480,7 @@ function ConsensusBlock({ consensus }: { consensus: string | null }) {
 
 /* ── DSM Proof Block ── */
 
-function ProofBlock({ dashboardUrl, eventCount }: { dashboardUrl: string; eventCount: number }) {
+function ProofBlock({ proofUrl, eventCount }: { proofUrl: string; eventCount: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -501,7 +501,7 @@ function ProofBlock({ dashboardUrl, eventCount }: { dashboardUrl: string; eventC
           </span>
         </motion.div>
         <motion.a
-          href={dashboardUrl}
+          href={proofUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm text-primary hover:underline underline-offset-4"
@@ -576,7 +576,11 @@ function TryDaryLab() {
   }, [content, submitMutation]);
 
   const data = pollQuery.data;
-  const dashboardUrl = import.meta.env.VITE_DASHBOARD_URL || "https://daryl-production.up.railway.app/health";
+  const agentMeshUrl =
+    import.meta.env.VITE_AGENT_MESH_URL || "https://daryl-production.up.railway.app";
+  const proofUrl = missionId
+    ? `${agentMeshUrl}/bridge/context?scope=mission:${missionId}&consumer_agent_id=darylab`
+    : agentMeshUrl;
   const completedIds = new Set((data?.results ?? []).map((r) => r.agentId));
 
   return (
@@ -737,7 +741,7 @@ function TryDaryLab() {
                 <>
                   <ConsensusBlock consensus={data.consensus} />
                   <ProofBlock
-                    dashboardUrl={dashboardUrl}
+                    proofUrl={proofUrl}
                     eventCount={data.eventCount}
                   />
                 </>
