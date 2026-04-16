@@ -233,9 +233,9 @@ function RiskBadge({ level, delay = 0 }: { level: string | null; delay?: number 
   );
 }
 
-/* ── Flow Diagram: parallel fan-out ── */
+/* ── Flow Diagram: Input → Agents → AI-Bridge → Consensus → DSM ── */
 
-const FLOW_CYCLE = 4000;
+const FLOW_CYCLE = 5000;
 
 function FlowDiagram() {
   const [elapsed, setElapsed] = useState(0);
@@ -247,41 +247,38 @@ function FlowDiagram() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const inPause = elapsed > 2500;
+  const inPause = elapsed > 3500;
   const lit = (ms: number) => !inPause && elapsed >= ms;
+  const pulse = (ms: number) => lit(ms) && elapsed < ms + 600;
 
-  const nodeClass = (on: boolean) =>
-    `px-2 py-1 md:px-2.5 md:py-1.5 rounded-md border text-[10px] md:text-xs font-mono whitespace-nowrap transition-all duration-300 ${
+  const n = (on: boolean, bigger?: boolean) =>
+    `${bigger ? "px-2.5 py-1.5 md:px-3 md:py-2" : "px-2 py-1 md:px-2.5 md:py-1.5"} rounded-md border text-[10px] md:text-xs font-mono whitespace-nowrap transition-all duration-300 ${
       on ? "border-foreground/50 bg-foreground/5 text-foreground" : "border-border/15 text-muted-foreground/15"
     }`;
 
-  const arrowOpacity = (on: boolean) => on && !inPause ? 0.5 : 0.1;
-
   const Arrow = ({ on }: { on: boolean }) => (
-    <svg width="20" height="8" viewBox="0 0 20 8" className="shrink-0">
-      <path d="M0 4 L16 4 M14 1 L18 4 L14 7" fill="none" stroke="currentColor" strokeWidth="1.2"
-        className="text-muted-foreground" style={{ opacity: arrowOpacity(on), transition: "opacity 0.3s" }} />
+    <svg width="18" height="8" viewBox="0 0 18 8" className="shrink-0">
+      <path d="M0 4 L14 4 M12 1 L16 4 L12 7" fill="none" stroke="currentColor" strokeWidth="1.2"
+        className="text-muted-foreground" style={{ opacity: on && !inPause ? 0.5 : 0.08, transition: "opacity 0.3s" }} />
     </svg>
   );
 
   return (
-    <div className="flex items-center justify-center py-5 max-w-[580px] mx-auto">
+    <div className="flex items-center justify-center py-5 max-w-[680px] mx-auto overflow-x-auto">
       <div className="flex items-center gap-1">
-        {/* Input */}
-        <div className={nodeClass(lit(0))}>Input</div>
+        <div className={n(lit(0))}>Input</div>
         <Arrow on={lit(300)} />
-
-        {/* 3 agents column */}
         <div className="flex flex-col gap-0.5">
-          <div className={nodeClass(lit(500))}>Claude</div>
-          <div className={nodeClass(lit(650))}>GPT-4</div>
-          <div className={nodeClass(lit(800))}>GLM</div>
+          <div className={n(lit(400))}>Claude</div>
+          <div className={n(lit(550))}>GPT-4</div>
+          <div className={n(lit(700))}>GLM</div>
         </div>
-
-        <Arrow on={lit(1300)} />
-
-        {/* DSM */}
-        <div className={nodeClass(lit(1600))}>DSM ✓</div>
+        <Arrow on={lit(1100)} />
+        <div className={`${n(pulse(1400), true)} ${pulse(1400) ? "ring-1 ring-foreground/20" : ""}`}>AI-Bridge</div>
+        <Arrow on={lit(1900)} />
+        <div className={n(lit(1900))}>Consensus</div>
+        <Arrow on={lit(2300)} />
+        <div className={n(lit(2300))}>DSM ✓</div>
       </div>
     </div>
   );
@@ -384,6 +381,103 @@ function AgentCard({
   );
 }
 
+/* ── AI-Bridge Block ── */
+
+function AIBridgeBlock({ status, consensus }: { status: string; consensus: string | null }) {
+  const allDone = status === "complete";
+  const hasResults = status === "partial" || status === "complete";
+
+  if (!hasResults && status !== "pending") return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+    >
+      {/* Connecting line */}
+      <motion.div
+        className="h-px w-full overflow-hidden mb-4"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        style={{ originX: 0 }}
+      >
+        <div className="h-px bg-border w-full" />
+      </motion.div>
+
+      <div className="rounded-lg border border-border/50 bg-muted/30 px-4 py-3 space-y-2">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60 font-medium">
+          AI-Bridge
+        </p>
+        {!allDone ? (
+          <div className="flex items-center gap-2">
+            <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
+            <motion.span
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="text-sm text-muted-foreground"
+            >
+              Waiting for all responses…
+            </motion.span>
+          </div>
+        ) : (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="text-sm text-muted-foreground leading-relaxed"
+          >
+            {consensus
+              ? `Synthesis complete — ${consensus} agents agree on the risk level.`
+              : "All agents responded. No clear consensus on risk level."}
+          </motion.p>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Consensus Block ── */
+
+function ConsensusBlock({ consensus }: { consensus: string | null }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
+    >
+      {/* Animated separator */}
+      <motion.div
+        className="h-px w-full overflow-hidden mb-3"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+        style={{ originX: 0 }}
+      >
+        <div className="h-px bg-border w-full" />
+      </motion.div>
+
+      <div className="flex items-center gap-2">
+        <span className="text-sm font-medium">Consensus:</span>
+        {consensus ? (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", stiffness: 280, damping: 22, delay: 0.5 }}
+          >
+            <Badge variant="secondary" className="font-mono text-xs">
+              {consensus}
+            </Badge>
+          </motion.div>
+        ) : (
+          <span className="text-sm text-muted-foreground">No consensus</span>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
 /* ── DSM Proof Block ── */
 
 function ProofBlock({ dashboardUrl, eventCount }: { dashboardUrl: string; eventCount: number }) {
@@ -391,16 +485,21 @@ function ProofBlock({ dashboardUrl, eventCount }: { dashboardUrl: string; eventC
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
       className="rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3 space-y-2"
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <motion.div
+          initial={{ opacity: 0, x: 15 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.7 }}
+          className="flex items-center gap-2"
+        >
           <span className="text-base">🔐</span>
           <span className="text-sm font-medium text-green-600 dark:text-green-400">
-            Responses stored in DSM
+            Stored in DSM
           </span>
-        </div>
+        </motion.div>
         <motion.a
           href={dashboardUrl}
           target="_blank"
@@ -408,7 +507,7 @@ function ProofBlock({ dashboardUrl, eventCount }: { dashboardUrl: string; eventC
           className="text-sm text-primary hover:underline underline-offset-4"
           initial={{ opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
         >
           View DSM Proof →
         </motion.a>
@@ -615,11 +714,33 @@ function TryDaryLab() {
                 })}
               </div>
 
+              {/* AI-Bridge: visible as soon as any result arrives */}
+              {data && data.results.length > 0 && (
+                <AIBridgeBlock status={data.status} consensus={data.consensus} />
+              )}
+
+              {/* Pending: grayedout bridge placeholder */}
+              {missionId && (!data || data.results.length === 0) && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 0.4 }}
+                  className="rounded-lg border border-border/30 bg-muted/10 px-4 py-3"
+                >
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 font-medium">AI-Bridge</p>
+                  <p className="text-xs text-muted-foreground/30 mt-1">Waiting for responses…</p>
+                </motion.div>
+              )}
+
+              {/* Consensus + Proof: only when complete */}
               {data && data.status === "complete" && (
-                <ProofBlock
-                  dashboardUrl={dashboardUrl}
-                  eventCount={data.eventCount}
-                />
+                <>
+                  <ConsensusBlock consensus={data.consensus} />
+                  <ProofBlock
+                    dashboardUrl={dashboardUrl}
+                    eventCount={data.eventCount}
+                  />
+                </>
               )}
 
               {data &&
