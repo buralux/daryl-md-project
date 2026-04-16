@@ -210,7 +210,7 @@ ${content}`;
         }
       }
 
-      const expectedAgents = 2;
+      const expectedAgents = 3;
       let status: string;
       if (results.length === 0) status = "pending";
       else if (results.length < expectedAgents) status = "partial";
