@@ -4,13 +4,15 @@ import { log } from "../index";
 const AGENT_MESH_URL =
   process.env.AGENT_MESH_API_BASE_URL ?? "http://localhost:8000";
 
-const MESH_TIMEOUT = 10_000;
+const MESH_TIMEOUT = 30_000;
 
 async function meshFetch(path: string, init?: RequestInit): Promise<Response> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), MESH_TIMEOUT);
+  const url = `${AGENT_MESH_URL}${path}`;
+  log(`meshFetch: ${init?.method ?? "GET"} ${url}`);
   try {
-    return await fetch(`${AGENT_MESH_URL}${path}`, {
+    return await fetch(url, {
       ...init,
       signal: controller.signal,
       headers: { "Content-Type": "application/json", ...init?.headers },
@@ -91,6 +93,23 @@ export function registerAnalyzeRoutes(app: Express) {
       const caps = TASK_CAPS[analysisType];
 
       const taskIds: string[] = [];
+      const prompt = `You are an expert analyst. Analyze the following content.
+
+Rules:
+- Be concise and factual
+- Focus only on what matters
+- Do NOT give tutorials or how-to guides
+
+Respond STRICTLY in this JSON format (no markdown, no explanation outside JSON):
+{
+  "risk_level": "HIGH|MEDIUM|LOW",
+  "summary": "one sentence max",
+  "top_risks": ["risk 1", "risk 2", "risk 3"]
+}
+
+Content to analyze:
+${content}`;
+
       await Promise.all(
         caps.map(async (cap) => {
           const taskRes = await meshFetch("/tasks", {
@@ -99,9 +118,9 @@ export function registerAnalyzeRoutes(app: Express) {
               mission_id: mission.mission_id,
               task_type: "analysis",
               payload: {
-                objective: content,
+                objective: prompt,
                 required_capabilities: [cap],
-                constraints: { max_output_tokens: 600 },
+                constraints: { max_output_tokens: 600, output_format: "json" },
               },
             }),
           });
@@ -115,10 +134,11 @@ export function registerAnalyzeRoutes(app: Express) {
       return res.status(201).json({ missionId: mission.mission_id, taskIds });
     } catch (err: any) {
       if (err.name === "AbortError") {
-        return res.status(503).json({ error: "agent-mesh unavailable" });
+        log(`analyze timeout: agent-mesh did not respond within ${MESH_TIMEOUT}ms`);
+        return res.status(503).json({ error: "agent-mesh timeout" });
       }
       log(`analyze error: ${err.message}`);
-      return res.status(503).json({ error: "agent-mesh unavailable" });
+      return res.status(503).json({ error: `agent-mesh error: ${err.message}` });
     }
   });
 
