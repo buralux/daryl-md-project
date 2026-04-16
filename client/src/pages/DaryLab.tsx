@@ -249,36 +249,50 @@ function FlowDiagram() {
 
   const inPause = elapsed > 3500;
   const lit = (ms: number) => !inPause && elapsed >= ms;
-  const pulse = (ms: number) => lit(ms) && elapsed < ms + 600;
+  const justLit = (ms: number) => lit(ms) && elapsed < ms + 400;
 
-  const n = (on: boolean, bigger?: boolean) =>
+  const nodeCls = (on: boolean, bigger?: boolean) =>
     `${bigger ? "px-2.5 py-1.5 md:px-3 md:py-2" : "px-2 py-1 md:px-2.5 md:py-1.5"} rounded-md border text-[10px] md:text-xs font-mono whitespace-nowrap transition-all duration-300 ${
       on ? "border-foreground/50 bg-foreground/5 text-foreground" : "border-border/15 text-muted-foreground/15"
     }`;
 
-  const Arrow = ({ on }: { on: boolean }) => (
-    <svg width="18" height="8" viewBox="0 0 18 8" className="shrink-0">
-      <path d="M0 4 L14 4 M12 1 L16 4 L12 7" fill="none" stroke="currentColor" strokeWidth="1.2"
-        className="text-muted-foreground" style={{ opacity: on && !inPause ? 0.5 : 0.08, transition: "opacity 0.3s" }} />
-    </svg>
+  const Node = ({ at, label, bigger }: { at: number; label: string; bigger?: boolean }) => (
+    <motion.div
+      className={`${nodeCls(lit(at), bigger)} ${bigger && justLit(at) ? "ring-1 ring-foreground/20" : ""}`}
+      animate={{ scale: justLit(at) ? 1.04 : 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      {label}
+    </motion.div>
+  );
+
+  const Arrow = ({ at }: { at: number }) => (
+    <motion.svg
+      width="18" height="8" viewBox="0 0 18 8" className="shrink-0 text-muted-foreground"
+      style={{ originX: 0 }}
+      animate={{ scaleX: lit(at) ? 1 : 0, opacity: lit(at) ? 0.5 : 0.08 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <path d="M0 4 L14 4 M12 1 L16 4 L12 7" fill="none" stroke="currentColor" strokeWidth="1.2" />
+    </motion.svg>
   );
 
   return (
     <div className="flex items-center justify-center py-5 max-w-[680px] mx-auto overflow-x-auto">
       <div className="flex items-center gap-1">
-        <div className={n(lit(0))}>Input</div>
-        <Arrow on={lit(300)} />
+        <Node at={0} label="Input" />
+        <Arrow at={300} />
         <div className="flex flex-col gap-0.5">
-          <div className={n(lit(400))}>Claude</div>
-          <div className={n(lit(550))}>GPT-4</div>
-          <div className={n(lit(700))}>GLM</div>
+          <Node at={400} label="Claude" />
+          <Node at={550} label="GPT-4" />
+          <Node at={700} label="GLM" />
         </div>
-        <Arrow on={lit(1100)} />
-        <div className={`${n(pulse(1400), true)} ${pulse(1400) ? "ring-1 ring-foreground/20" : ""}`}>DSM-Bridge</div>
-        <Arrow on={lit(1900)} />
-        <div className={n(lit(1900))}>Consensus</div>
-        <Arrow on={lit(2300)} />
-        <div className={n(lit(2300))}>DSM ✓</div>
+        <Arrow at={1100} />
+        <Node at={1400} label="DSM-Bridge" bigger />
+        <Arrow at={1900} />
+        <Node at={1900} label="Consensus" />
+        <Arrow at={2300} />
+        <Node at={2300} label="DSM ✓" />
       </div>
     </div>
   );
@@ -315,7 +329,7 @@ function AgentCard({
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut", delay: status === "pending" ? index * 0.1 : 0 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.12 }}
     >
       <Card className="p-4 h-full relative overflow-hidden">
         <CardContent className="p-0 space-y-3">
@@ -336,45 +350,61 @@ function AgentCard({
             )}
           </div>
 
-          {status === "complete" ? (
-            <>
-              <RiskBadge level={riskLevel} delay={0.1} />
-              <motion.p
+          <AnimatePresence mode="wait">
+            {status === "complete" ? (
+              <motion.div
+                key="complete"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.15 }}
-                className="text-sm text-muted-foreground leading-relaxed"
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="space-y-3"
               >
-                {summaryText}
-              </motion.p>
-              {topRisks.length > 0 && (
-                <ul className="space-y-1">
-                  {topRisks.map((risk, ri) => (
-                    <motion.li
-                      key={ri}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: 0.25 + ri * 0.07 }}
-                      className="text-xs text-muted-foreground/80 pl-2 border-l border-muted-foreground/20"
-                    >
-                      {risk}
-                    </motion.li>
-                  ))}
-                </ul>
-              )}
-            </>
-          ) : (
-            <>
-              <motion.p
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="text-xs text-muted-foreground/50 italic"
+                <RiskBadge level={riskLevel} delay={0.1} />
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3, delay: 0.15 }}
+                  className="text-sm text-muted-foreground leading-relaxed"
+                >
+                  {summaryText}
+                </motion.p>
+                {topRisks.length > 0 && (
+                  <ul className="space-y-1">
+                    {topRisks.map((risk, ri) => (
+                      <motion.li
+                        key={ri}
+                        initial={{ opacity: 0, x: -8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: 0.25 + ri * 0.07 }}
+                        className="text-xs text-muted-foreground/80 pl-2 border-l border-muted-foreground/20"
+                      >
+                        {risk}
+                      </motion.li>
+                    ))}
+                  </ul>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="pending"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="space-y-2.5"
               >
-                Waiting for agent…
-              </motion.p>
-              <SkeletonShimmer />
-            </>
-          )}
+                <motion.p
+                  animate={{ opacity: [0.4, 0.8, 0.4] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-xs text-muted-foreground/50 italic"
+                >
+                  Waiting for agent…
+                </motion.p>
+                <SkeletonShimmer />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </CardContent>
       </Card>
     </motion.div>
@@ -464,7 +494,7 @@ function ConsensusBlock({ consensus }: { consensus: string | null }) {
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 280, damping: 22, delay: 0.5 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.5 }}
           >
             <Badge variant="secondary" className="font-mono text-xs">
               {consensus}
@@ -481,40 +511,58 @@ function ConsensusBlock({ consensus }: { consensus: string | null }) {
 /* ── DSM Proof Block ── */
 
 function ProofBlock({ proofUrl, eventCount }: { proofUrl: string; eventCount: number }) {
+  const metaParts = eventCount > 0
+    ? [`${eventCount} events`, "hash-chained", "Ed25519 signed"]
+    : [];
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
+      initial={{ opacity: 0, x: 16 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
       className="rounded-lg border border-green-500/20 bg-green-500/5 px-4 py-3 space-y-2"
     >
       <div className="flex items-center justify-between">
-        <motion.div
-          initial={{ opacity: 0, x: 15 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut", delay: 0.7 }}
-          className="flex items-center gap-2"
-        >
+        <div className="flex items-center gap-2">
           <span className="text-base">🔐</span>
           <span className="text-sm font-medium text-green-600 dark:text-green-400">
             Stored in DSM
           </span>
-        </motion.div>
+        </div>
         <motion.a
           href={proofUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm text-primary hover:underline underline-offset-4"
-          initial={{ opacity: 0, x: 12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 }}
         >
-          View DSM Proof →
+          View DSM Proof{" "}
+          <motion.span
+            initial={{ x: 0 }}
+            animate={{ x: [0, 4, 0] }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.8, times: [0, 0.5, 1] }}
+            className="inline-block"
+          >
+            →
+          </motion.span>
         </motion.a>
       </div>
-      {eventCount > 0 && (
+      {metaParts.length > 0 && (
         <p className="text-xs text-muted-foreground font-mono">
-          {eventCount} events · hash-chained · Ed25519 signed
+          {metaParts.map((part, i) => (
+            <motion.span
+              key={part}
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 + i * 0.06 }}
+              className="inline-block"
+            >
+              {part}
+              {i < metaParts.length - 1 && <span className="mx-1.5">·</span>}
+            </motion.span>
+          ))}
         </p>
       )}
     </motion.div>
@@ -625,26 +673,17 @@ function TryDaryLab() {
             onClick={handleSubmit}
             disabled={content.length < 10 || submitMutation.isPending}
             data-testid="button-analyze"
-            className={submitMutation.isPending ? "opacity-60 cursor-not-allowed" : ""}
+            className={submitMutation.isPending ? "opacity-70 cursor-not-allowed" : ""}
           >
             {submitMutation.isPending ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : null}
-            Analyze with 3 agents
-          </Button>
-          <AnimatePresence>
-            {submitMutation.isPending && (
-              <motion.p
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-xs text-muted-foreground"
-              >
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Sending to agents…
-              </motion.p>
+              </>
+            ) : (
+              "Analyze with 3 agents"
             )}
-          </AnimatePresence>
+          </Button>
         </div>
 
         {submitMutation.isError && (
