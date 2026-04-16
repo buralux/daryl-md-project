@@ -233,7 +233,7 @@ function RiskBadge({ level, delay = 0 }: { level: string | null; delay?: number 
   );
 }
 
-/* ── Flow Diagram: Input → Agents → AI-Bridge → Consensus → DSM ── */
+/* ── Flow Diagram: Input → Agents → DSM-Bridge → Consensus → DSM ── */
 
 const FLOW_CYCLE = 5000;
 
@@ -274,7 +274,7 @@ function FlowDiagram() {
           <div className={n(lit(700))}>GLM</div>
         </div>
         <Arrow on={lit(1100)} />
-        <div className={`${n(pulse(1400), true)} ${pulse(1400) ? "ring-1 ring-foreground/20" : ""}`}>AI-Bridge</div>
+        <div className={`${n(pulse(1400), true)} ${pulse(1400) ? "ring-1 ring-foreground/20" : ""}`}>DSM-Bridge</div>
         <Arrow on={lit(1900)} />
         <div className={n(lit(1900))}>Consensus</div>
         <Arrow on={lit(2300)} />
@@ -381,7 +381,7 @@ function AgentCard({
   );
 }
 
-/* ── AI-Bridge Block ── */
+/* ── DSM-Bridge Block ── */
 
 function AIBridgeBlock({ status, consensus }: { status: string; consensus: string | null }) {
   const allDone = status === "complete";
@@ -408,7 +408,7 @@ function AIBridgeBlock({ status, consensus }: { status: string; consensus: strin
 
       <div className="rounded-lg border border-border/50 bg-muted/30 px-4 py-3 space-y-2">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60 font-medium">
-          AI-Bridge
+          DSM-Bridge
         </p>
         {!allDone ? (
           <div className="flex items-center gap-2">
@@ -719,7 +719,7 @@ function TryDaryLab() {
                 })}
               </div>
 
-              {/* AI-Bridge: visible as soon as any result arrives */}
+              {/* DSM-Bridge: visible as soon as any result arrives */}
               {data && data.results.length > 0 && (
                 <AIBridgeBlock status={data.status} consensus={data.consensus} />
               )}
@@ -732,7 +732,7 @@ function TryDaryLab() {
                   transition={{ duration: 0.3, delay: 0.4 }}
                   className="rounded-lg border border-border/30 bg-muted/10 px-4 py-3"
                 >
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 font-medium">AI-Bridge</p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 font-medium">DSM-Bridge</p>
                   <p className="text-xs text-muted-foreground/30 mt-1">Waiting for responses…</p>
                 </motion.div>
               )}
