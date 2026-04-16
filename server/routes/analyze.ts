@@ -205,6 +205,8 @@ ${content}`;
         const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
         if (sorted[0][1] > 1) {
           consensus = `${sorted[0][1]}/${results.length} ${sorted[0][0]}`;
+        } else if (riskLevels.length >= 2) {
+          consensus = `Split: ${riskLevels.join(" / ")}`;
         }
       }
 
