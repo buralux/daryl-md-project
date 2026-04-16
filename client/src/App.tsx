@@ -28,6 +28,7 @@ function Router() {
       <Route path="/vision" component={Vision} />
       <Route path="/products" component={Products} />
       <Route path="/products/darylab" component={DaryLab} />
+      <Route path="/lab" component={DaryLab} />
       <Route path="/agents" component={Agents} />
       <Route path="/roadmap" component={Roadmap} />
       <Route path="/universe" component={Universe} />

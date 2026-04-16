@@ -2,13 +2,13 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { contactFormSchema } from "@shared/schema";
 import { storage } from "./storage";
+import { registerAnalyzeRoutes } from "./routes/analyze";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // put application routes here
-  // prefix all routes with /api
+  registerAnalyzeRoutes(app);
 
   app.get("/health", (_req, res) => {
     res.status(200).json({ ok: true });
