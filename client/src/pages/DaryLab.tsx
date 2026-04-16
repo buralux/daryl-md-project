@@ -576,7 +576,7 @@ function TryDaryLab() {
   }, [content, submitMutation]);
 
   const data = pollQuery.data;
-  const dashboardUrl = import.meta.env.VITE_DASHBOARD_URL || "#";
+  const dashboardUrl = import.meta.env.VITE_DASHBOARD_URL || "https://daryl-production.up.railway.app/health";
   const completedIds = new Set((data?.results ?? []).map((r) => r.agentId));
 
   return (
