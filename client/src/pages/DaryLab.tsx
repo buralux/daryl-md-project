@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { Search, Layers, Plug, CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
@@ -221,11 +221,181 @@ function RiskBadge({ level }: { level: string | null }) {
     LOW: "bg-green-500/10 text-green-600 border-green-500/30",
   };
   return (
-    <Badge variant="outline" className={colors[level] ?? ""}>
-      {level}
-    </Badge>
+    <motion.div
+      initial={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 500, damping: 25 }}
+    >
+      <Badge variant="outline" className={colors[level] ?? ""}>
+        {level}
+      </Badge>
+    </motion.div>
   );
 }
+
+const FLOW_STEPS = ["INPUT", "Agent A", "Agent B", "Agent C", "AI-Bridge", "DSM ✓"];
+
+function FlowDiagram() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActive((prev) => (prev + 1) % (FLOW_STEPS.length + 2));
+    }, 600);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex items-center justify-center gap-1 md:gap-2 py-8 overflow-x-auto">
+      {FLOW_STEPS.map((label, i) => {
+        const isActive = active >= i && active < FLOW_STEPS.length + 1;
+        const isLit = active === i;
+        return (
+          <div key={label} className="flex items-center gap-1 md:gap-2">
+            <motion.div
+              className={`
+                px-2 py-1.5 md:px-3 md:py-2 rounded-md border text-[10px] md:text-xs font-mono
+                transition-colors duration-300 whitespace-nowrap
+                ${isLit
+                  ? "border-primary bg-primary/10 text-primary"
+                  : isActive
+                    ? "border-border/60 bg-muted/30 text-muted-foreground"
+                    : "border-border/30 bg-transparent text-muted-foreground/40"
+                }
+              `}
+              animate={isLit ? { scale: 1.05 } : { scale: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              {label}
+            </motion.div>
+            {i < FLOW_STEPS.length - 1 && (
+              <motion.svg
+                width="16"
+                height="8"
+                viewBox="0 0 16 8"
+                className="shrink-0"
+                animate={{ opacity: isActive ? 0.6 : 0.15 }}
+                transition={{ duration: 0.3 }}
+              >
+                <path
+                  d="M0 4 L12 4 M10 1 L14 4 L10 7"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="text-muted-foreground"
+                />
+              </motion.svg>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function AgentCard({
+  agentId,
+  status,
+  riskLevel,
+  content,
+  sigVerified,
+  index,
+}: {
+  agentId: string;
+  status: "pending" | "complete";
+  riskLevel: string | null;
+  content: string;
+  sigVerified: boolean;
+  index: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.15 }}
+    >
+      <Card className="p-4 h-full">
+        <CardContent className="p-0 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-mono font-medium truncate mr-2">
+              {agentId}
+            </span>
+            {status === "complete" ? (
+              sigVerified ? (
+                <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
+              ) : (
+                <XCircle className="h-4 w-4 text-red-500 shrink-0" />
+              )
+            ) : (
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground shrink-0" />
+            )}
+          </div>
+          {status === "complete" ? (
+            <>
+              <RiskBadge level={riskLevel} />
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {content}
+              </p>
+            </>
+          ) : (
+            <p className="text-sm text-muted-foreground/60 italic">
+              Calling LLM…
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+}
+
+function ConsensusBlock({
+  consensus,
+  dashboardUrl,
+}: {
+  consensus: string | null;
+  dashboardUrl: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
+      className="pt-4 border-t border-border"
+    >
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium">
+          Consensus:{" "}
+          <span className="text-muted-foreground">
+            {consensus ?? "No consensus"}
+          </span>
+        </p>
+        <div className="flex items-center gap-3">
+          <motion.span
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 }}
+            className="text-xs text-green-600 dark:text-green-400 font-medium"
+          >
+            ✓ Stored in DSM
+          </motion.span>
+          <motion.a
+            href={dashboardUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-primary hover:underline"
+            initial={{ opacity: 0.4 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.7 }}
+          >
+            View DSM Proof →
+          </motion.a>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+const EXPECTED_AGENTS = ["agent_claude_prod", "agent_gpt4_prod", "agent_glm_prod"];
 
 function TryDaryLab() {
   const [type, setType] = useState("general");
@@ -269,7 +439,7 @@ function TryDaryLab() {
   const noWorkersYet =
     !!missionId &&
     startedAt !== null &&
-    Date.now() - startedAt > 10_000 &&
+    Date.now() - startedAt > 15_000 &&
     (pollQuery.data?.results?.length ?? 0) === 0;
 
   const handleSubmit = useCallback(() => {
@@ -281,6 +451,7 @@ function TryDaryLab() {
 
   const data = pollQuery.data;
   const dashboardUrl = import.meta.env.VITE_DASHBOARD_URL || "#";
+  const completedIds = new Set((data?.results ?? []).map((r) => r.agentId));
 
   return (
     <section
@@ -289,10 +460,12 @@ function TryDaryLab() {
     >
       <motion.h2
         {...fadeInUp}
-        className="text-4xl md:text-5xl font-bold tracking-tight text-foreground text-center mb-12"
+        className="text-4xl md:text-5xl font-bold tracking-tight text-foreground text-center mb-4"
       >
         Try DaryLab
       </motion.h2>
+
+      <FlowDiagram />
 
       <motion.div {...fadeInUp}>
         <Tabs value={type} onValueChange={setType} className="w-full">
@@ -332,92 +505,119 @@ function TryDaryLab() {
         {submitMutation.isError && (
           <p className="text-destructive text-sm text-center mt-4">
             {submitMutation.error.message.includes("503")
-              ? "agent-mesh is not reachable. Make sure it's running on port 8000."
+              ? "agent-mesh is not reachable. Check server status."
               : `Error: ${submitMutation.error.message}`}
           </p>
         )}
 
-        {missionId && (
-          <div className="mt-10 space-y-6">
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                Mission: <code className="text-xs">{missionId}</code>
-              </p>
-              {data && (
-                <Badge
-                  variant={
-                    data.status === "complete"
-                      ? "default"
-                      : data.status === "partial"
-                        ? "secondary"
-                        : "outline"
-                  }
-                >
-                  {data.status}
-                </Badge>
-              )}
-            </div>
-
-            {noWorkersYet && (
-              <p className="text-sm text-orange-600 dark:text-orange-400 text-center">
-                No workers running. Start agent-mesh workers first.
-              </p>
-            )}
-
-            {data && data.results.length > 0 && (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {data.results.map((r) => (
-                    <Card key={r.agentId} className="p-4">
-                      <CardContent className="p-0 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-mono font-medium truncate mr-2">
-                            {r.agentId}
-                          </span>
-                          {r.sigVerified ? (
-                            <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
-                          ) : (
-                            <XCircle className="h-4 w-4 text-red-500 shrink-0" />
-                          )}
-                        </div>
-                        <RiskBadge level={r.riskLevel} />
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {r.summary}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <p className="text-sm font-medium">
-                    Consensus:{" "}
-                    <span className="text-muted-foreground">
-                      {data.consensus ?? "No consensus"}
-                    </span>
-                  </p>
-                  <a
-                    href={dashboardUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary hover:underline"
+        <AnimatePresence>
+          {missionId && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-10 space-y-6"
+            >
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  Mission: <code className="text-xs">{missionId}</code>
+                </p>
+                {data && (
+                  <motion.div
+                    animate={
+                      data.status === "pending"
+                        ? { opacity: [0.5, 1, 0.5] }
+                        : { opacity: 1 }
+                    }
+                    transition={
+                      data.status === "pending"
+                        ? { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                        : {}
+                    }
                   >
-                    View DSM Proof →
-                  </a>
-                </div>
-              </>
-            )}
+                    <Badge
+                      variant={
+                        data.status === "complete"
+                          ? "default"
+                          : data.status === "partial"
+                            ? "secondary"
+                            : "outline"
+                      }
+                    >
+                      {data.status === "pending" ? "Analyzing…" : data.status}
+                    </Badge>
+                  </motion.div>
+                )}
+              </div>
 
-            {data &&
-              data.status !== "complete" &&
-              data.results.length > 0 && (
-                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Waiting for remaining agents…
-                </div>
+              {noWorkersYet && (
+                <p className="text-sm text-orange-600 dark:text-orange-400 text-center">
+                  Waiting for workers to respond…
+                </p>
               )}
-          </div>
-        )}
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {(missionId && !data?.results?.length
+                  ? EXPECTED_AGENTS
+                  : []
+                ).map((agentId, i) => (
+                  <AgentCard
+                    key={agentId}
+                    agentId={agentId}
+                    status="pending"
+                    riskLevel={null}
+                    content=""
+                    sigVerified={false}
+                    index={i}
+                  />
+                ))}
+
+                {(data?.results ?? []).map((r, i) => (
+                  <AgentCard
+                    key={r.agentId}
+                    agentId={r.agentId}
+                    status="complete"
+                    riskLevel={r.riskLevel}
+                    content={r.summary}
+                    sigVerified={r.sigVerified}
+                    index={i}
+                  />
+                ))}
+              </div>
+
+              {data && data.results.length > 0 && (
+                <>
+                  <motion.div
+                    className="relative h-px w-full overflow-hidden"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    style={{ originX: 0 }}
+                  >
+                    <div className="h-px bg-border w-full" />
+                  </motion.div>
+
+                  {data.status === "complete" && (
+                    <ConsensusBlock
+                      consensus={data.consensus}
+                      dashboardUrl={dashboardUrl}
+                    />
+                  )}
+                </>
+              )}
+
+              {data &&
+                data.status !== "complete" &&
+                data.results.length > 0 && (
+                  <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Waiting for remaining agents…
+                  </div>
+                )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </section>
   );
