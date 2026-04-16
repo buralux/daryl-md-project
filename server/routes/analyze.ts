@@ -172,12 +172,25 @@ ${content}`;
         deduplicated.set(f.agent_id, f);
       }
 
-      const results = Array.from(deduplicated.values()).map((f) => ({
-        agentId: f.agent_id ?? "unknown",
-        sigVerified: true,
-        summary: String(f.text ?? "").slice(0, 200),
-        riskLevel: extractRiskLevel(f.text),
-      }));
+      const results = Array.from(deduplicated.values()).map((f) => {
+        const raw = String(f.text ?? "");
+        let summary = raw.slice(0, 200);
+        let riskLevel = extractRiskLevel(raw);
+        try {
+          const parsed = JSON.parse(raw);
+          if (parsed.summary) summary = String(parsed.summary).slice(0, 200);
+          if (parsed.risk_level) riskLevel = String(parsed.risk_level).toUpperCase();
+          if (parsed.top_risks && Array.isArray(parsed.top_risks)) {
+            summary += " — " + parsed.top_risks.join(", ");
+          }
+        } catch {}
+        return {
+          agentId: f.agent_id ?? "unknown",
+          sigVerified: true,
+          summary: summary.slice(0, 300),
+          riskLevel,
+        };
+      });
 
       const riskLevels = results
         .map((r) => r.riskLevel)
