@@ -213,18 +213,18 @@ interface AnalyzeResponse {
   eventCount: number;
 }
 
-function RiskBadge({ level }: { level: string | null }) {
+function RiskBadge({ level, delay = 0 }: { level: string | null; delay?: number }) {
   if (!level) return <Badge variant="outline" className="text-muted-foreground">—</Badge>;
   const colors: Record<string, string> = {
-    HIGH: "bg-red-500/10 text-red-600 border-red-500/30",
-    MEDIUM: "bg-orange-500/10 text-orange-600 border-orange-500/30",
-    LOW: "bg-green-500/10 text-green-600 border-green-500/30",
+    HIGH: "bg-red-500/10 text-red-500 border-red-500/30",
+    MEDIUM: "bg-amber-500/10 text-amber-500 border-amber-500/30",
+    LOW: "bg-green-500/10 text-green-500 border-green-500/30",
   };
   return (
     <motion.div
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 500, damping: 25 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25, delay }}
     >
       <Badge variant="outline" className={colors[level] ?? ""}>
         {level}
@@ -233,62 +233,78 @@ function RiskBadge({ level }: { level: string | null }) {
   );
 }
 
-const FLOW_STEPS = ["INPUT", "Agent A", "Agent B", "Agent C", "AI-Bridge", "DSM ✓"];
+const FLOW_NODES = [
+  { label: "INPUT", group: 0 },
+  { label: "Claude", group: 1 },
+  { label: "GPT-4", group: 1 },
+  { label: "GLM", group: 1 },
+  { label: "AI-Bridge", group: 2 },
+  { label: "DSM ✓", group: 3 },
+];
+const FLOW_TIMINGS = [0, 300, 500, 700, 1000, 1300, 1800, 2100];
+const FLOW_CYCLE = 4500;
 
 function FlowDiagram() {
-  const [active, setActive] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActive((prev) => (prev + 1) % (FLOW_STEPS.length + 2));
-    }, 600);
-    return () => clearInterval(interval);
+    let start = performance.now();
+    let raf: number;
+    const tick = () => {
+      setElapsed((performance.now() - start) % FLOW_CYCLE);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
+  const inPause = elapsed > 3100;
+
   return (
-    <div className="flex items-center justify-center gap-1 md:gap-2 py-8 overflow-x-auto">
-      {FLOW_STEPS.map((label, i) => {
-        const isActive = active >= i && active < FLOW_STEPS.length + 1;
-        const isLit = active === i;
+    <div className="flex items-center justify-center gap-1 md:gap-2 py-6 max-w-[600px] mx-auto overflow-x-auto">
+      {FLOW_NODES.map((node, i) => {
+        const onTime = FLOW_TIMINGS[i] ?? 0;
+        const isLit = !inPause && elapsed >= onTime;
         return (
-          <div key={label} className="flex items-center gap-1 md:gap-2">
-            <motion.div
+          <div key={node.label} className="flex items-center gap-1 md:gap-2">
+            <div
               className={`
                 px-2 py-1.5 md:px-3 md:py-2 rounded-md border text-[10px] md:text-xs font-mono
-                transition-colors duration-300 whitespace-nowrap
+                whitespace-nowrap transition-all duration-300
                 ${isLit
-                  ? "border-primary bg-primary/10 text-primary"
-                  : isActive
-                    ? "border-border/60 bg-muted/30 text-muted-foreground"
-                    : "border-border/30 bg-transparent text-muted-foreground/40"
+                  ? "border-foreground/60 bg-foreground/5 text-foreground"
+                  : "border-border/20 bg-transparent text-muted-foreground/20"
                 }
               `}
-              animate={isLit ? { scale: 1.05 } : { scale: 1 }}
-              transition={{ duration: 0.2 }}
             >
-              {label}
-            </motion.div>
-            {i < FLOW_STEPS.length - 1 && (
-              <motion.svg
-                width="16"
-                height="8"
-                viewBox="0 0 16 8"
-                className="shrink-0"
-                animate={{ opacity: isActive ? 0.6 : 0.15 }}
-                transition={{ duration: 0.3 }}
-              >
+              {node.label}
+            </div>
+            {i < FLOW_NODES.length - 1 && (
+              <svg width="16" height="8" viewBox="0 0 16 8" className="shrink-0">
                 <path
                   d="M0 4 L12 4 M10 1 L14 4 L10 7"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.5"
-                  className="text-muted-foreground"
+                  className={`transition-opacity duration-300 ${
+                    isLit && !inPause ? "text-muted-foreground/50" : "text-muted-foreground/10"
+                  }`}
                 />
-              </motion.svg>
+              </svg>
             )}
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function SkeletonShimmer() {
+  return (
+    <div className="space-y-3">
+      <div className="h-3 w-16 rounded bg-muted-foreground/10 animate-shimmer" />
+      <div className="h-3 w-full rounded bg-muted-foreground/10 animate-shimmer [animation-delay:100ms]" />
+      <div className="h-3 w-3/4 rounded bg-muted-foreground/10 animate-shimmer [animation-delay:200ms]" />
     </div>
   );
 }
@@ -308,9 +324,17 @@ function AgentCard({
   sigVerified: boolean;
   index: number;
 }) {
+  const topRisks = (() => {
+    if (!content) return [];
+    const match = content.match(/— (.+)$/);
+    if (match) return match[1].split(", ").filter(Boolean);
+    return [];
+  })();
+  const summaryText = content.replace(/ — .+$/, "");
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut", delay: index * 0.15 }}
     >
@@ -330,17 +354,45 @@ function AgentCard({
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground shrink-0" />
             )}
           </div>
+
           {status === "complete" ? (
             <>
-              <RiskBadge level={riskLevel} />
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {content}
-              </p>
+              <RiskBadge level={riskLevel} delay={index * 0.15 + 0.1} />
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.15 + 0.2 }}
+                className="text-sm text-muted-foreground leading-relaxed"
+              >
+                {summaryText}
+              </motion.p>
+              {topRisks.length > 0 && (
+                <ul className="space-y-1">
+                  {topRisks.map((risk, ri) => (
+                    <motion.li
+                      key={ri}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.15 + 0.3 + ri * 0.08 }}
+                      className="text-xs text-muted-foreground/80 pl-2 border-l border-muted-foreground/20"
+                    >
+                      {risk}
+                    </motion.li>
+                  ))}
+                </ul>
+              )}
             </>
           ) : (
-            <p className="text-sm text-muted-foreground/60 italic">
-              Calling LLM…
-            </p>
+            <>
+              <motion.p
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="text-sm text-muted-foreground/60 italic"
+              >
+                Analyzing…
+              </motion.p>
+              <SkeletonShimmer />
+            </>
           )}
         </CardContent>
       </Card>
@@ -356,42 +408,70 @@ function ConsensusBlock({
   dashboardUrl: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeOut", delay: 0.3 }}
-      className="pt-4 border-t border-border"
-    >
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-medium">
-          Consensus:{" "}
-          <span className="text-muted-foreground">
-            {consensus ?? "No consensus"}
-          </span>
-        </p>
-        <div className="flex items-center gap-3">
-          <motion.span
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 }}
-            className="text-xs text-green-600 dark:text-green-400 font-medium"
-          >
-            ✓ Stored in DSM
-          </motion.span>
-          <motion.a
-            href={dashboardUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-primary hover:underline"
-            initial={{ opacity: 0.4 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-          >
-            View DSM Proof →
-          </motion.a>
+    <div className="space-y-3">
+      <motion.div
+        className="h-px w-full overflow-hidden"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        style={{ originX: 0 }}
+      >
+        <div className="h-px bg-border w-full" />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.5 }}
+        className="flex items-center justify-between"
+      >
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium">Consensus:</p>
+          {consensus ? (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.6 }}
+            >
+              <Badge variant="secondary" className="font-mono text-xs">
+                {consensus}
+              </Badge>
+            </motion.div>
+          ) : (
+            <span className="text-sm text-muted-foreground">No consensus</span>
+          )}
         </div>
-      </div>
-    </motion.div>
+
+        <motion.a
+          href={dashboardUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-primary hover:underline"
+          initial={{ opacity: 0, x: 15 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.7 }}
+        >
+          View DSM Proof →
+        </motion.a>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
+        className="flex items-center gap-1.5"
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" className="text-green-500 shrink-0">
+          <path
+            d="M7 0a7 7 0 110 14A7 7 0 017 0zm3.2 4.3a.6.6 0 00-.85 0L6.1 7.55 4.65 6.1a.6.6 0 10-.85.85l1.88 1.87a.6.6 0 00.84 0l3.68-3.67a.6.6 0 000-.85z"
+            fill="currentColor"
+          />
+        </svg>
+        <span className="text-xs text-green-600 dark:text-green-400 font-medium">
+          Stored in DSM
+        </span>
+      </motion.div>
+    </div>
   );
 }
 
@@ -488,18 +568,32 @@ function TryDaryLab() {
           ))}
         </Tabs>
 
-        <div className="flex justify-center mt-6">
+        <div className="flex flex-col items-center mt-6 gap-2">
           <Button
             size="lg"
             onClick={handleSubmit}
             disabled={content.length < 10 || submitMutation.isPending}
             data-testid="button-analyze"
+            className={submitMutation.isPending ? "opacity-60 cursor-not-allowed" : ""}
           >
             {submitMutation.isPending ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
             Analyze with 3 agents
           </Button>
+          <AnimatePresence>
+            {submitMutation.isPending && (
+              <motion.p
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-xs text-muted-foreground"
+              >
+                Sending to agents…
+              </motion.p>
+            )}
+          </AnimatePresence>
         </div>
 
         {submitMutation.isError && (
@@ -586,25 +680,11 @@ function TryDaryLab() {
                 ))}
               </div>
 
-              {data && data.results.length > 0 && (
-                <>
-                  <motion.div
-                    className="relative h-px w-full overflow-hidden"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    style={{ originX: 0 }}
-                  >
-                    <div className="h-px bg-border w-full" />
-                  </motion.div>
-
-                  {data.status === "complete" && (
-                    <ConsensusBlock
-                      consensus={data.consensus}
-                      dashboardUrl={dashboardUrl}
-                    />
-                  )}
-                </>
+              {data && data.results.length > 0 && data.status === "complete" && (
+                <ConsensusBlock
+                  consensus={data.consensus}
+                  dashboardUrl={dashboardUrl}
+                />
               )}
 
               {data &&
