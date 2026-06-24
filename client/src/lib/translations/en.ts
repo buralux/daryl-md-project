@@ -250,7 +250,6 @@ const en: Record<string, string> = {
   "dsm.hero.headline": "Prove what your agent did.",
   "dsm.hero.subtitle": "Daryl Sharding Memory",
   "dsm.hero.tagline": "Daryl's flagship product. Off-chain trust, memory and audit layer. Append-only, hash-chained, tamper-evident.",
-  "dsm.pillars.title": "Core Pillars",
   "dsm.pillars.shard": "Append entries to named shards — each an append-only, isolated log.",
   "dsm.pillars.index": "Fast, deterministic retrieval through an indexed read layer over your shards.",
   "dsm.pillars.verify": "Ensure consistency with append-only logging and a verifiable SHA-256 hash chain.",
@@ -270,13 +269,6 @@ const en: Record<string, string> = {
   "dsm.usecases.continuity.description": "Persist knowledge across sessions. Agents resume work with complete context — every step still auditable.",
   "dsm.usecases.evolution.title": "Auditable History",
   "dsm.usecases.evolution.description": "Every interaction extends the hash-chained trail. History is preserved, append-only, and tamper-evident.",
-  "dsm.capabilities.title": "Core Capabilities",
-  "dsm.capabilities.sharding.title": "Memory Sharding",
-  "dsm.capabilities.sharding.description": "Append entries to as many shards as you need — one per session, agent, or domain. Shard names are arbitrary; nothing is fixed.",
-  "dsm.capabilities.coordination.title": "Multi-Agent Coordination",
-  "dsm.capabilities.coordination.description": "Multi-agent governance: identity registry, sovereignty rules, neutral orchestration, and per-agent write lanes.",
-  "dsm.capabilities.continuity.title": "Session Continuity",
-  "dsm.capabilities.continuity.description": "Persistent knowledge across sessions with append-only event logging and state management.",
   "dsm.principles.title": "Design Principles",
   "dsm.principles.appendonly.title": "Append-only History",
   "dsm.principles.appendonly.description": "Every state change is immutable and timestamped. Full audit trail with no rewrites.",
@@ -307,7 +299,6 @@ const en: Record<string, string> = {
   "dsm.exampleFlow.step5.title": "Verify",
   "dsm.exampleFlow.step5.description": "Replay the chain, recompute every hash, confirm integrity — independently.",
 
-  "common.learnMore": "Learn more",
   "common.viewFullRoadmap": "View full roadmap",
 };
 
