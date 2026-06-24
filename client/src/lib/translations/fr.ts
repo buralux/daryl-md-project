@@ -15,9 +15,9 @@ const fr: Record<string, string> = {
   "home.hero.tag": "DSM · couche de confiance & d'audit",
   "home.hero.title": "Prouvez ce que votre agent IA a fait.",
   "home.hero.subtitle":
-    "Traces d'exécution append-only, hash-chaînées, infalsifiables. La couche de preuve que vous tendez à un auditeur.",
+    "Traces d'exécution append-only, hash-chaînées, à détection d'altération. La couche de preuve que vous tendez à un auditeur.",
   "home.hero.description":
-    "Daryl/DSM est une couche off-chain de confiance, mémoire et audit pour agents IA — traces d'exécution hash-chaînées et infalsifiables.",
+    "Daryl/DSM est une couche off-chain de confiance, mémoire et audit pour agents IA — traces d'exécution hash-chaînées, à détection d'altération.",
   "home.hero.cta1": "Voir la démo",
   "home.hero.cta2": "Démarrer · open source",
 
@@ -79,7 +79,7 @@ const fr: Record<string, string> = {
     "Là où il faut reconstruire ce qu'un agent a fait — de façon vérifiable, pas seulement plausible.",
   "home.usecases.c1.title": "EU AI Act",
   "home.usecases.c1.description":
-    "Les systèmes à haut risque doivent assurer la traçabilité des décisions. DSM fournit une trace d'audit infalsifiable — une brique, pas une certification.",
+    "Les systèmes à haut risque doivent assurer la traçabilité des décisions. DSM fournit une trace d'audit à détection d'altération — une brique, pas une certification.",
   "home.usecases.c2.title": "Responsabilité",
   "home.usecases.c2.description":
     "Prêt, triage patient, exécution d'un ordre : reconstruisez ce qui s'est passé avec une preuve d'intégrité, pas un grep de logs.",
@@ -239,7 +239,7 @@ const fr: Record<string, string> = {
   "terms.title": "Conditions générales",
   "terms.content": "Ce site est fourni à titre informatif. DARYL et ses produits associés sont en cours de développement actif. Les fonctionnalités, les délais et les spécifications sont susceptibles de changer. L'utilisation de ce site constitue l'acceptation de ces conditions. Pour toute question, contactez-nous à hello@daryl.md.",
 
-  "footer.description": "DARYL est la couche de confiance et d'audit des agents IA — traces d'exécution hash-chaînées et infalsifiables.",
+  "footer.description": "DARYL est la couche de confiance et d'audit des agents IA — traces d'exécution hash-chaînées, à détection d'altération.",
   "footer.nav.title": "Navigation",
   "footer.legal.title": "Légal",
   "footer.legal.cookies": "Politique de cookies",
@@ -251,7 +251,7 @@ const fr: Record<string, string> = {
 
   "dsm.hero.headline": "Prouvez ce que votre agent a fait.",
   "dsm.hero.subtitle": "Daryl Sharding Memory",
-  "dsm.hero.tagline": "Produit phare de Daryl. Couche off-chain de confiance, mémoire et audit. Append-only, hash-chaînée, infalsifiable.",
+  "dsm.hero.tagline": "Produit phare de Daryl. Couche off-chain de confiance, mémoire et audit. Append-only, hash-chaînée, à détection d'altération.",
   "dsm.pillars.shard": "Ajoutez des entrées à des shards nommés — chacun un journal append-only et isolé.",
   "dsm.pillars.index": "Récupération rapide et déterministe via une couche de lecture indexée sur vos shards.",
   "dsm.pillars.verify": "Assurez la cohérence avec journalisation append-only et une chaîne de hash SHA-256 vérifiable.",
@@ -270,7 +270,7 @@ const fr: Record<string, string> = {
   "dsm.usecases.continuity.title": "Continuité des sessions",
   "dsm.usecases.continuity.description": "Persistez la connaissance entre sessions. Les agents reprennent le travail avec tout le contexte — chaque étape reste auditable.",
   "dsm.usecases.evolution.title": "Historique auditable",
-  "dsm.usecases.evolution.description": "Chaque interaction prolonge la trace hash-chaînée. L'historique est préservé, append-only et infalsifiable.",
+  "dsm.usecases.evolution.description": "Chaque interaction prolonge la trace hash-chaînée. L'historique est préservé, append-only et à détection d'altération.",
   "dsm.principles.title": "Principes de conception",
   "dsm.principles.appendonly.title": "Historique append-only",
   "dsm.principles.appendonly.description": "Chaque changement d'état est immuable et horodaté. Journal d'audit complet sans réécritures.",
