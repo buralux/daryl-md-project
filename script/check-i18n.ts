@@ -28,23 +28,12 @@ const CLIENT_SRC = resolve(__dirname, "../client/src");
 const LOCALE_FILES = new Set(["en.ts", "fr.ts"]); // excluded from the source scan
 
 /**
- * Pre-existing translation debt. This PR introduces the guardrail only;
- * cleanup of these keys must happen in a separate PR. The lint stays green
- * with these allowlisted keys, but fails on ANY new orphan outside this set.
- * When the cleanup PR removes a key (or wires it up), drop it from here too —
- * stale entries are reported as a non-failing warning below.
+ * Allowlist for pre-existing orphan keys (translation debt). Currently empty:
+ * the original baseline of 9 keys has been cleaned up. Add a key here only as a
+ * temporary, documented exception — the goal is to keep this set empty so any
+ * orphan fails the lint. Stale entries are reported as a non-failing warning.
  */
-const KNOWN_ORPHAN_KEYS = new Set<string>([
-  "common.learnMore",
-  "dsm.pillars.title",
-  "dsm.capabilities.title",
-  "dsm.capabilities.sharding.title",
-  "dsm.capabilities.sharding.description",
-  "dsm.capabilities.coordination.title",
-  "dsm.capabilities.coordination.description",
-  "dsm.capabilities.continuity.title",
-  "dsm.capabilities.continuity.description",
-]);
+const KNOWN_ORPHAN_KEYS = new Set<string>([]);
 
 // --- gather all client source (excluding the locale files themselves) ---
 function collectSources(root: string): string[] {
