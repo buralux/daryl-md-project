@@ -38,6 +38,22 @@ async function buildAll() {
   console.log("building client...");
   await viteBuild();
 
+  // Build de l'entree SSR utilisee uniquement au build (prerender), pas au runtime.
+  console.log("building SSR entry (for prerender)...");
+  await viteBuild({
+    logLevel: "warn",
+    build: {
+      ssr: "src/entry-server.tsx",
+      outDir: "../dist/ssr",
+      emptyOutDir: true,
+    },
+  });
+
+  // Genere un index.html statique par route dans dist/public (titre + sous-titre visibles sans JS).
+  console.log("prerendering routes...");
+  const { prerender } = await import("./prerender.ts");
+  await prerender();
+
   console.log("building server...");
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [
