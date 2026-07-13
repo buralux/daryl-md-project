@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import { ExperienceShell } from "@/world/ExperienceShell";
+import WorldLab from "@/world-lab/WorldLab"; // [experiment/scroll-world uniquement]
 import NotFound from "@/pages/not-found";
 import Teaser from "@/pages/Teaser";
 import Home from "@/pages/Home";
@@ -39,6 +40,8 @@ function Router() {
       <Route path="/cookies" component={Cookies} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
+      {/* Route d'expérimentation — branche experiment/scroll-world uniquement, noindex, hors sitemap */}
+      <Route path="/world-lab" component={WorldLab} />
       <Route component={NotFound} />
     </Switch>
   );
