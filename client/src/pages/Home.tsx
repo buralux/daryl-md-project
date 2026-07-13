@@ -15,6 +15,7 @@ import { PageHead } from "@/components/PageHead";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { CinematicBackground } from "@/world-integrated/CinematicBackground"; // [experiment/scroll-world-integrated-page]
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -50,6 +51,8 @@ export default function Home() {
 
   return (
     <Layout>
+      {/* Couche cinématique intégrée — derrière le contenu réel, jamais à sa place. */}
+      <CinematicBackground />
       <PageHead
         title="DARYL — Trust & audit layer for AI agents"
         description={t("home.hero.description")}

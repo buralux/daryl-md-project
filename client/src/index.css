@@ -81,6 +81,30 @@
   animation-play-state: paused;
 }
 
+/* ============================================================
+   EXPÉRIENCE — couche cinématique intégrée (branche experiment/
+   scroll-world-integrated-page). Scènes scrubbées derrière le contenu.
+   ============================================================ */
+.wi-scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity;
+}
+.wi-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 50%;
+}
+.wi-scene .wi-media + .wi-media { z-index: 1; } /* vidéo au-dessus du poster une fois montée */
+/* Thème clair : la couche sombre se retire — le fond clair du site reste maître. */
+:root:not(.dark) .wi-host { opacity: 0; }
+/* Reduced-motion (ceinture CSS en plus du moteur qui ne charge aucun clip) :
+   posters immobiles, fondus par fenêtre conservés via opacity inline. */
+
 /* Focus visible sur les liens nus (les composants shadcn ont deja leur ring). */
 a:focus-visible {
   outline: 2px solid hsl(var(--ring));
