@@ -2,6 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   PHASE 1 — REGISTRE VIE (présence atmosphérique, ne prétend rien)
+   Voir docs/website/PHASE_1_LIFE_DESIGN.md et world/contracts.ts.
+   Uniquement opacity/transform (compositor). Pas de blur, pas de filter.
+   ============================================================ */
+
+:root {
+  /* Thème clair : le champ est une chaleur à peine perceptible, la ligne un fil graphite. */
+  --life-glow: 232 184 122;      /* ambre chaud (RGB) */
+  --life-glow-alpha: 0.06;
+  --life-line: 24 26 30;         /* graphite profond */
+  --life-line-alpha: 0.20;
+}
+.dark {
+  /* Thème sombre : la chaleur porte la présence ; la ligne est le fil de lumière. */
+  --life-glow-alpha: 0.09;
+  --life-line: 232 184 122;
+  --life-line-alpha: 0.34;
+}
+
+#experience-stage .life-field {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120vmax 90vmax at 18% -10%, rgb(var(--life-glow) / var(--life-glow-alpha)), transparent 60%),
+    radial-gradient(100vmax 80vmax at 85% 110%, rgb(var(--life-glow) / calc(var(--life-glow-alpha) * 0.6)), transparent 55%);
+  opacity: 0.8;
+  will-change: opacity;
+  animation: life-breath 14s ease-in-out infinite;
+}
+
+#experience-stage .life-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(20px, 5vw, 64px);
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(var(--life-line) / var(--life-line-alpha)) 18%,
+    rgb(var(--life-line) / var(--life-line-alpha)) 82%,
+    transparent 100%
+  );
+  opacity: 0.7;
+  will-change: opacity;
+  animation: life-line-breath 10s ease-in-out infinite;
+  transition: opacity 900ms ease;
+}
+
+/* Respiration : basse fréquence, basse amplitude — jamais d'urgence. */
+@keyframes life-breath {
+  0%, 100% { opacity: 0.65; }
+  50%      { opacity: 1; }
+}
+@keyframes life-line-breath {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.9; }
+}
+
+/* État transitionnel : bref éveil au changement de route, retombe en ambient. */
+#experience-stage[data-motion="transitional"] .life-line {
+  opacity: 1;
+}
+
+/* État statique (reduced-motion / save-data) : présent, immobile, intentionnel. */
+#experience-stage[data-motion="static"] .life-field,
+#experience-stage[data-motion="static"] .life-line {
+  animation: none;
+  transition: none;
+  opacity: 0.8;
+}
+
+/* Onglet caché : pause explicite (budget CPU/batterie). */
+#experience-stage[data-hidden] .life-field,
+#experience-stage[data-hidden] .life-line {
+  animation-play-state: paused;
+}
+
 /* Focus visible sur les liens nus (les composants shadcn ont deja leur ring). */
 a:focus-visible {
   outline: 2px solid hsl(var(--ring));
