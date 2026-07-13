@@ -72,6 +72,16 @@ contenu de `/home` (choix SEO délibéré, commenté dans `script/prerender.ts`)
 - Env : `.env.example` documente `AGENT_MESH_API_BASE_URL`, `VITE_DASHBOARD_URL` (non inspectées,
   non exposées)
 
+## Défaut préexistant découvert en validation autonome (2026-07-13) — NON corrigé en Phase 0
+
+**Le formulaire de contact est cassé en production statique.** `client/src/pages/Contact.tsx:42`
+fait `POST /api/contact`, mais le déploiement Vercel est purement statique (`dist/public`) : aucune
+API n'existe. Vérifié empiriquement sur l'artefact construit : `POST /api/contact` → **404** ; le
+visiteur qui soumet le formulaire obtient une erreur et son message est perdu. Défaut présent sur
+`main` (préexistant, sans lien avec la Phase 0). **Différé** : la correction exige une décision
+produit — fonction serverless Vercel, service de formulaire tiers, ou repli `mailto:` (l'adresse
+hello@daryl.md est déjà affichée sur la page). À trancher par le propriétaire du produit.
+
 ## Checks existants (baseline, tous verts)
 - `npm run check` (tsc) : ✓ · `npm run check:i18n` : ✓ · `npm run build` : ✓
 - Aucun test unitaire/e2e configuré dans ce dépôt (fait, pas un reproche — noté pour les phases futures)
