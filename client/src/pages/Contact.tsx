@@ -2,9 +2,7 @@ import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
-import { contactFormSchema } from "@shared/schema";
 import { useTranslation } from "@/lib/i18n";
 import Layout from "@/components/Layout";
 import { PageHead } from "@/components/PageHead";
@@ -12,10 +10,19 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-type ContactForm = z.infer<typeof contactFormSchema>;
+// Miroir localisé de contactFormSchema (@shared/schema) : mêmes règles,
+// messages traduits EN/FR côté client.
+function buildContactSchema(t: (k: string) => string) {
+  return z.object({
+    name: z.string().min(1, t("contact.validation.name")).max(100),
+    email: z.string().email(t("contact.validation.email")),
+    message: z.string().min(1, t("contact.validation.message")).max(2000),
+  });
+}
+
+type ContactForm = z.infer<ReturnType<typeof buildContactSchema>>;
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -29,7 +36,7 @@ export default function Contact() {
   const { toast } = useToast();
 
   const form = useForm<ContactForm>({
-    resolver: zodResolver(contactFormSchema),
+    resolver: zodResolver(buildContactSchema(t)),
     defaultValues: {
       name: "",
       email: "",
@@ -37,26 +44,25 @@ export default function Contact() {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (data: ContactForm) => {
-      await apiRequest("POST", "/api/contact", data);
-    },
-    onSuccess: () => {
-      toast({
-        title: t("contact.form.success"),
-      });
-      form.reset();
-    },
-    onError: () => {
-      toast({
-        title: t("contact.form.error"),
-        variant: "destructive",
-      });
-    },
-  });
-
+  // Pas de backend d'envoi autorisé sur l'hébergement statique : le formulaire
+  // compose un e-mail dans l'application de l'utilisateur (mailto:). Aucun faux
+  // état "envoyé" — le message part quand l'utilisateur l'envoie lui-même.
   function onSubmit(data: ContactForm) {
-    mutation.mutate(data);
+    const to = t("contact.email.address");
+    const subject = `[daryl.md] ${data.name}`;
+    const body = `${data.message}\n\n— ${data.name} <${data.email}>`;
+    const href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // mailto: dépasse ~2000 caractères de façon peu fiable selon les clients.
+    if (href.length > 1900) {
+      toast({ title: t("contact.form.error"), variant: "destructive" });
+      return;
+    }
+    try {
+      window.location.href = href;
+      toast({ title: t("contact.form.success") });
+    } catch {
+      toast({ title: t("contact.form.error"), variant: "destructive" });
+    }
   }
 
   return (
@@ -153,11 +159,17 @@ export default function Contact() {
                 variant="default"
                 size="lg"
                 className="w-full"
-                disabled={mutation.isPending}
                 data-testid="button-submit"
               >
-                {mutation.isPending ? "..." : t("contact.form.submit")}
+                {t("contact.form.submit")}
               </Button>
+
+              <p
+                className="text-xs text-muted-foreground text-center"
+                data-testid="text-contact-notice"
+              >
+                {t("contact.form.notice")}
+              </p>
             </form>
           </Form>
 
