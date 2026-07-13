@@ -78,10 +78,16 @@ export function Header() {
       data-testid="header"
       className="sticky top-0 z-50 h-16 backdrop-blur-xl bg-background/80 border-b border-border/50"
     >
+      <a
+        href="#main"
+        data-testid="link-skip-to-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:px-3 focus:py-2 focus:rounded-md focus:bg-background focus:text-foreground focus:ring-1 focus:ring-ring"
+      >
+        {t("common.skipToContent")}
+      </a>
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-        <Link href="/home" data-testid="link-logo">
-          <Logo />
-        </Link>
+        {/* Logo rend son propre <a> (wouter Link) — pas de <a> imbriqué. */}
+        <Logo href="/home" data-testid="link-logo" />
 
         <nav className="hidden md:flex items-center gap-1 flex-wrap">
           {navItems.map((item) => renderItem(item))}
@@ -99,6 +105,7 @@ export function Header() {
                 variant="ghost"
                 size="icon"
                 data-testid="button-mobile-menu"
+                aria-label={t("a11y.openMenu")}
               >
                 <Menu className="h-5 w-5" />
               </Button>

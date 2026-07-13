@@ -300,6 +300,15 @@ const fr: Record<string, string> = {
   "dsm.exampleFlow.step4.description": "Fermez le shard avec un sceau cryptographique pour l'archivage.",
   "dsm.exampleFlow.step5.title": "Vérifier",
   "dsm.exampleFlow.step5.description": "Rejouez la chaîne, recalculez chaque hash, confirmez l'intégrité — indépendamment.",
+
+  "common.skipToContent": "Aller au contenu",
+  "notFound.title": "Page introuvable",
+  "notFound.message": "Cette page n'existe pas.",
+  "notFound.home": "Retour à l'accueil",
+  "teaser.skip": "Passer",
+  "a11y.openMenu": "Ouvrir le menu",
+  "a11y.switchLanguage": "Changer de langue",
+  "a11y.toggleTheme": "Basculer thème clair/sombre",
 };
 
 export default fr;

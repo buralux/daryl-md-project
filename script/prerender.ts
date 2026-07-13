@@ -2,7 +2,8 @@ import { readFile, writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { render } from "../dist/ssr/entry-server.js";
 
-const SITE = "https://daryl-md-project.vercel.app";
+// Domaine canonique de production. Surchargable (ex: previews) via SITE_URL.
+const SITE = process.env.SITE_URL ?? "https://www.daryl.md";
 const OUT_DIR = path.resolve(import.meta.dirname, "../dist/public");
 
 // path      : route servie (URL reelle cote client)
@@ -62,6 +63,19 @@ export async function prerender() {
     await writeFile(dest, html, "utf-8");
     console.log(`prerendered ${r.path.padEnd(20)} -> dist/public/${r.out}  (${(html.length/1024).toFixed(1)} kB)`);
   }
+
+  // sitemap.xml + robots.txt generes depuis la meme liste de routes (pages legales exclues du sitemap).
+  const publicRoutes = routes.filter((r) => !["/cookies", "/privacy", "/terms"].includes(r.path));
+  const sitemap =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    publicRoutes.map((r) => `  <url><loc>${SITE}${r.path}</loc></url>`).join("\n") +
+    `\n</urlset>\n`;
+  await writeFile(path.join(OUT_DIR, "sitemap.xml"), sitemap, "utf-8");
+  const robots = `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`;
+  await writeFile(path.join(OUT_DIR, "robots.txt"), robots, "utf-8");
+  console.log(`generated sitemap.xml (${publicRoutes.length} urls) + robots.txt`);
+
   console.log(`\nDone: ${routes.length} routes prerendered.`);
 }
 

@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Focus visible sur les liens nus (les composants shadcn ont deja leur ring). */
+a:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Respect de prefers-reduced-motion pour les animations CSS.
+   (framer-motion est couvert par <MotionConfig reducedMotion="user"> dans App.) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }

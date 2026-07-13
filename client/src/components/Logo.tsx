@@ -7,6 +7,7 @@ type LogoProps = {
   href?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
+  "data-testid"?: string;
 };
 
 const sizeMap = {
@@ -19,6 +20,7 @@ export function Logo({
   href = "/",
   size = "md",
   className = "",
+  "data-testid": testId,
 }: LogoProps) {
   const { theme } = useTheme();
   const blockColor = theme === "dark" ? "rgba(255,255,255,0.88)" : "rgba(15,23,42,0.88)";
@@ -27,6 +29,7 @@ export function Logo({
   return (
     <Link
       href={href}
+      data-testid={testId}
       className={cn(
         "inline-flex items-baseline gap-0 select-none",
         className
