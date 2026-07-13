@@ -26,6 +26,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem("language", language);
+    // Garde <html lang> synchronise avec la langue affichee (lecteurs d'ecran, SEO client-side).
+    document.documentElement.lang = language;
   }, [language]);
 
   const t = useCallback(
@@ -51,7 +53,7 @@ export function useTranslation() {
 }
 
 export function LanguageSwitcher() {
-  const { language, setLanguage } = useTranslation();
+  const { t, language, setLanguage } = useTranslation();
 
   return (
     <Button
@@ -60,6 +62,7 @@ export function LanguageSwitcher() {
       onClick={() => setLanguage(language === "en" ? "fr" : "en")}
       data-testid="button-language-switch"
       className="font-medium tracking-wide text-xs uppercase"
+      aria-label={t("a11y.switchLanguage")}
     >
       {language === "en" ? "FR" : "EN"}
     </Button>

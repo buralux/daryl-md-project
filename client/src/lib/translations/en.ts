@@ -300,6 +300,15 @@ const en: Record<string, string> = {
   "dsm.exampleFlow.step5.description": "Replay the chain, recompute every hash, confirm integrity — independently.",
 
   "common.viewFullRoadmap": "View full roadmap",
+
+  "common.skipToContent": "Skip to content",
+  "notFound.title": "Page not found",
+  "notFound.message": "This page does not exist.",
+  "notFound.home": "Back to home",
+  "teaser.skip": "Skip",
+  "a11y.openMenu": "Open menu",
+  "a11y.switchLanguage": "Switch language",
+  "a11y.toggleTheme": "Toggle light/dark theme",
 };
 
 export default en;
