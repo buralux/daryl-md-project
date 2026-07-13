@@ -1,47 +1,42 @@
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useLocation } from "wouter";
 
 /**
- * ExperienceShell — la frontière de l'expérience persistante (Phase 0).
+ * ExperienceShell — frontière de l'expérience persistante.
  *
- * Rôle : définir OÙ vivra la future couche-monde, pas la construire.
- * Ce composant est monté UNE FOIS, au-dessus du Router : il survit aux
- * changements de route. Il ne rend aujourd'hui aucun visuel.
+ * Phase 0 : frontière vide (voir docs/website/PHASE_0_ARCHITECTURE.md).
+ * Phase 1 : registre VIE uniquement (docs/website/PHASE_1_LIFE_DESIGN.md).
  *
- * Propriété des couches (contrat de layout, voir docs/website/PHASE_0_ARCHITECTURE.md) :
+ * Le stage contient deux éléments purement atmosphériques :
+ *   .life-field  — champ de lumière chaude, très faible, qui respire (~14s)
+ *   .life-line   — le premier indice de continuité spatiale : un filament
+ *                  vertical discret, respiration décalée (~10s)
  *
- *   ┌─ ExperienceShell (persistant, hors Router) ──────────────────┐
- *   │  ┌─ stage (fixed, aria-hidden, pointer-events:none, z-0) ─┐  │  ← future couche-monde
- *   │  │  (vide en Phase 0 — réservé aux registres Life/Evidence)│  │    (enhancement uniquement)
- *   │  └─────────────────────────────────────────────────────────┘  │
- *   │  ┌─ contenu de route (Router → Layout → main#main) ───────┐  │  ← contenu réel, DOM
- *   │  │  source de vérité SEO / accessibilité / no-JS          │  │    sémantique, prérendu
- *   │  └─────────────────────────────────────────────────────────┘  │
- *   └───────────────────────────────────────────────────────────────┘
+ * Registre VIE (contrat: world/contracts.ts) : ces éléments ne prétendent
+ * RIEN — pas d'activité d'agent, pas de télémétrie, pas de preuve. De la
+ * matière (lumière, rythme), jamais des données.
  *
- * Règles que les phases futures DOIVENT respecter :
- *  - Le contenu de route reste lisible et complet sans le stage (fallback
- *    statique = édition à part entière, jamais une excuse).
- *  - Le stage est aria-hidden et n'intercepte jamais le pointeur ni le focus.
- *  - Le stage ne bloque jamais le chargement du contenu (chargement paresseux,
- *    hors chemin critique).
- *  - reduced-motion / save-data / absence de capacités ⇒ stage inerte (§ capabilities).
- *  - Tout effet monté par le stage est nettoyé dans son cleanup (pas de fuites
- *    entre routes — le shell ne se démonte pas, ses enfants si).
- *  - Analytics : aucune télémétrie ajoutée par le stage sans décision explicite
- *    (frontière analytics = Cloudflare Insights existant, rien d'autre).
+ * Trois états de mouvement (attribut data-motion sur le stage) :
+ *   static       — reduced-motion, save-data : présent mais immobile
+ *   ambient      — défaut : respiration basse fréquence, basse amplitude
+ *   transitional — bref éveil (~900ms) au changement de route, puis retour
+ *                  à ambient. Ne suggère pas qu'une navigation est une
+ *                  "exécution DARYL" — seulement que le lieu est continu.
+ *
+ * Cycle de vie : listeners (visibilitychange) et timers nettoyés ; le shell
+ * ne se démonte jamais entre routes, donc aucun risque de double
+ * enregistrement (monté une seule fois au-dessus du Router).
+ * Onglet caché : data-hidden pause toutes les animations (animation-play-state).
  */
 
 export interface ExperienceCapabilities {
-  /** L'utilisateur préfère un mouvement réduit (media query, réactive). */
   reducedMotion: boolean;
-  /** L'utilisateur a activé l'économie de données. */
   saveData: boolean;
 }
 
-/** Capacités observées côté client. SSR-safe : valeurs conservatrices par défaut. */
+/** Capacités observées côté client. SSR-safe : défauts conservateurs (pas de motion). */
 export function useExperienceCapabilities(): ExperienceCapabilities {
   const [caps, setCaps] = useState<ExperienceCapabilities>({
-    // Défauts conservateurs (SSR / premier rendu) : pas de motion tant qu'on ne sait pas.
     reducedMotion: true,
     saveData: false,
   });
@@ -62,20 +57,57 @@ export function useExperienceCapabilities(): ExperienceCapabilities {
   return caps;
 }
 
+type MotionState = "static" | "ambient" | "transitional";
+
 export function ExperienceShell({ children }: { children: ReactNode }) {
+  const caps = useExperienceCapabilities();
+  const [location] = useLocation();
+  const [motion, setMotion] = useState<MotionState>("static"); // conservateur au premier rendu
+  const [hidden, setHidden] = useState(false);
+  const prevLocation = useRef(location);
+  const settleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isStatic = caps.reducedMotion || caps.saveData;
+
+  // État de base : static si contraintes, sinon ambient.
+  useEffect(() => {
+    setMotion(isStatic ? "static" : "ambient");
+  }, [isStatic]);
+
+  // Réponse de route : bref passage en transitional, puis retour à ambient.
+  useEffect(() => {
+    if (prevLocation.current === location) return;
+    prevLocation.current = location;
+    if (isStatic) return;
+    setMotion("transitional");
+    if (settleTimer.current) clearTimeout(settleTimer.current);
+    settleTimer.current = setTimeout(() => setMotion("ambient"), 900);
+    return () => {
+      if (settleTimer.current) clearTimeout(settleTimer.current);
+    };
+  }, [location, isStatic]);
+
+  // Onglet caché : pause explicite des animations (budget batterie/CPU).
+  useEffect(() => {
+    const onVisibility = () => setHidden(document.hidden);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
   return (
     <>
-      {/*
-        Le "stage" : emplacement réservé de la future couche-monde.
-        Vide en Phase 0 (aucun coût, aucun visuel). Position fixe derrière le
-        contenu, invisible pour l'accessibilité, transparent au pointeur.
-      */}
+      {/* Stage : décoratif, hors arbre d'accessibilité, transparent au pointeur/focus. */}
       <div
         id="experience-stage"
         aria-hidden="true"
         data-testid="experience-stage"
-        className="fixed inset-0 z-0 pointer-events-none"
-      />
+        data-motion={motion}
+        data-hidden={hidden || undefined}
+        className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+      >
+        <div className="life-field" />
+        <div className="life-line" />
+      </div>
       {/* Contenu de route — toujours au-dessus du stage. */}
       <div className="relative z-10">{children}</div>
     </>
