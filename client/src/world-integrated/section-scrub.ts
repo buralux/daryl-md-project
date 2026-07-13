@@ -30,6 +30,8 @@ export interface IntegratedScene {
   clip: string;
   clipMobile?: string;
   poster: string;
+  /** Remap amont lingerEase 0..1 : la caméra se pose au cœur de la fenêtre (Moment 3). */
+  linger?: number;
 }
 
 export interface SectionScrubHandle { destroy: () => void; }
@@ -50,6 +52,8 @@ export function mountSectionScrub(container: HTMLElement, scenes: IntegratedScen
 
   const clamp = (x: number, a = 0, b = 1) => Math.min(b, Math.max(a, x));
   const smooth = (x: number) => { x = clamp(x); return x * x * (3 - 2 * x); };
+  // lingerEase amont (verbatim) : f(0)=0, f(1)=1, la caméra ralentit au centre.
+  const lingerEase = (x: number, L: number) => { L = clamp(L); const c = x - 0.5; return (1 - L) * x + L * (4 * c * c * c + 0.5); };
 
   // ---- couches de scène (poster + vidéo), dans le conteneur fixe hôte ----
   const S: any[] = scenes.map(sc => {
@@ -111,14 +115,17 @@ export function mountSectionScrub(container: HTMLElement, scenes: IntegratedScen
       if (s.ws < 0) { s.el.style.opacity = '0'; s.visible = false; return; }
       if (y > s.ws - 1.2 * vh && y < s.we + 1.2 * vh) loadClip(s);
       const p = clamp((y - s.ws) / (s.we - s.ws));
-      s.target = p;
-      // fondu doux aux bords de la fenêtre — le monde apparaît et se retire,
-      // il ne "saute" jamais ; entre les fenêtres, la page respire (Phase 1).
-      // Une fenêtre ancrée en haut de page (le héros) est présente dès le
-      // chargement : pas de fondu d'entrée — DARYL existe déjà sous l'interface.
-      const inEdge = s.ws <= 2 ? 1 : smooth(p / 0.18);
-      const outEdge = smooth((1 - p) / 0.22);
-      const edge = Math.min(inEdge, outEdge, 1);
+      s.target = s.linger ? lingerEase(p, s.linger) : p;
+      // Fondus doux aux bords de fenêtre (adoucis : 0.25 entrée / 0.30 sortie) —
+      // les transitions se sentent spatialement, ne se remarquent pas techniquement.
+      // La fenêtre du héros (ws=0) n'a pas de fondu d'entrée de fenêtre PROPRE :
+      // c'est le facteur reveal global qui la gouverne (voir ci-dessous).
+      const inEdge = s.ws <= 2 ? 1 : smooth(p / 0.25);
+      const outEdge = smooth((1 - p) / 0.30);
+      // PRINCIPE FONDATEUR (brief) : la première vue ≈ production ; le monde ne se
+      // révèle qu'avec l'ACTION du visiteur. reveal 0→1 sur le premier ~0.6 vh de scroll.
+      const reveal = smooth(y / (0.6 * vh));
+      const edge = Math.min(inEdge, outEdge, 1) * reveal;
       s.el.style.opacity = String(edge);
       s.visible = edge > 0.001;
     });

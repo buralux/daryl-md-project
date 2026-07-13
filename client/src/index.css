@@ -98,10 +98,36 @@
   height: 100%;
   object-fit: cover;
   object-position: center 50%;
+  /* Amplitude de présence — variante B (+15 %) retenue après test A/B/C :
+     corrige le défaut « à peine perceptible » du réglage initial en conservant
+     un contraste AA partout (calculs dans SECTION_SCENE_MAP). C (+30 %) rejetée :
+     marge de contraste érodée + risque « vidéo décorative ». */
+  filter: brightness(var(--wi-amp, 1.15));
 }
 .wi-scene .wi-media + .wi-media { z-index: 1; } /* vidéo au-dessus du poster une fois montée */
-/* Thème clair : la couche sombre se retire — le fond clair du site reste maître. */
-:root:not(.dark) .wi-host { opacity: 0; }
+
+/* Protection du texte — le plus petit mécanisme : une bande d'atténuation
+   verticale derrière la colonne de contenu (le monde reste visible aux bords).
+   Pas de cartes opaques, pas de panneaux. */
+.wi-host::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(10 11 12 / 0.30) 26%,
+    rgb(10 11 12 / 0.30) 74%,
+    transparent 100%
+  );
+}
+
+/* Thème clair — variante intégrée à l'essai : structure graphite très retenue
+   (désaturée, très faible opacité) au lieu du retrait total. Évaluée pendant
+   le test d'amplitude ; si elle nuit à la lisibilité, retour au retrait (op 0). */
+:root:not(.dark) .wi-host { opacity: var(--wi-light, 0); }
+:root:not(.dark) .wi-media { filter: grayscale(0.65) brightness(1.1); }
+:root:not(.dark) .wi-host::after { background: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.5) 26%, rgb(255 255 255 / 0.5) 74%, transparent 100%); }
 /* Reduced-motion (ceinture CSS en plus du moteur qui ne charge aucun clip) :
    posters immobiles, fondus par fenêtre conservés via opacity inline. */
 

@@ -26,6 +26,40 @@ Clips actuels = substitution procédurale « background-duty » (plafond de lumi
 pic hors colonne de texte) — prouvent le MODÈLE, pas l'esthétique générée (gates Higgsfield
 inchangés, 0 crédit).
 
+## Passe de raffinement (2026-07-14)
+
+**Première vue = production.** Diff vs main sur Home.tsx : +3 lignes (import + commentaire +
+composant) — le héros original est intact octet pour octet. Au repos (y=0) la couche est à
+opacité 0 : le premier écran est identique à la production. **Révélation par l'action** :
+facteur `reveal = smooth(y / 0.6vh)` mesuré 0.00 → 0.50 (0.3 vh) → 1.00 (0.6 vh).
+
+**Amplitude — test A/B/C** (brightness 1 / 1.15 / 1.30 sur la couche média, contenu et
+timing inchangés) : contrastes calculés du texte héros (#F1F2F4) sur le pic lumineux
+derrière la bande de protection : A ≈ 7.4:1, B ≈ 6.4:1, C ≈ 5.7:1. **Retenue : B (+15 %)** —
+corrige le « à peine perceptible » constaté au premier prototype ; C écorne la marge sur le
+corps de texte hors cartes et tend vers la « vidéo décorative ». (La plus forte n'a pas été
+choisie par principe.) Jugement final sur écran réel = propriétaire (preview).
+
+**Transitions (géométrie réelle)** : entrée `p/0.25`, sortie `(1−p)/0.30` (adoucies depuis
+0.18/0.22) ; fenêtre héros sans fondu d'entrée propre (gouvernée par reveal). Moment 3 :
+`linger 0.35` — le mouvement ralentit au cœur de la fenêtre (lingerEase amont). Séquence
+type : section start → transition in (0→25 % de fenêtre) → pleine présence → transition out
+(70→100 %) → intervalle inactif (respiration Phase 1) → entrée suivante.
+
+**Protection du texte** : bande d'atténuation verticale unique derrière la colonne de
+contenu (gradient 26–74 %, alpha 0.30) — pas de cartes opaques ; le monde reste visible aux
+bords. Plus plafond de luminance des clips (≈50 %) et pic hors colonne.
+
+**Thème clair — évidence du retrait** : testé `--wi-light: 0.15` + grayscale : soit
+imperceptible (aucune continuité gagnée) soit voile gris (taxe de lisibilité). Aucun milieu
+honnête avec des clips sombres → **retrait conservé (opacité 0)**, à revisiter uniquement
+avec des scènes générées composées pour fond clair. La parité forcée serait malhonnête.
+
+**Contraintes de composition mobile pour la future génération Higgsfield** (le recadrage
+portrait coupe un 16:9 à ~la moitié centrale) : point focal lumineux dans les 40 % centraux
+horizontaux ; aucune structure signifiante dans les 30 % extérieurs de chaque bord ; la
+lecture de l'échelle doit survivre au crop `object-position: center 50%`.
+
 ## Mesures (build + runtime, artefact construit)
 - JS : 617.57 → **621.38 kB** (gzip 186.88 → **188.28**, +1.4 kB) — moteur intégré + composant.
 - Payload médias : **5.8 MB** total (desktop 3.8 MB clips + 0.55 MB posters ; mobile 1.7 MB) —
