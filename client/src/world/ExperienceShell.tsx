@@ -88,8 +88,11 @@ export function ExperienceShell({ children }: { children: ReactNode }) {
   }, [location, isStatic]);
 
   // Onglet caché : pause explicite des animations (budget batterie/CPU).
+  // Synchronisé AU MONTAGE aussi : un onglet ouvert en arrière-plan (cmd+clic)
+  // doit démarrer en pause, pas seulement après son premier visibilitychange.
   useEffect(() => {
     const onVisibility = () => setHidden(document.hidden);
+    onVisibility();
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
